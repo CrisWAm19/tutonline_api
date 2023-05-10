@@ -81,7 +81,7 @@ DATABASES = {
         'PORT': '3306',
         'USER': 'root',
         'PASSWORD': 'Admin.123',
-        'NAME': 'tutonline',
+        'NAME': 'tutonline_DB',
         'OPTIONS':{
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         }
