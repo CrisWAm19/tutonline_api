@@ -4,7 +4,7 @@ from django.db import models
 
 from django.db import models
 
-# Create your models here.
+# Create your models here.G
 class Administrador(models.Model):
     rutAdmin = models.CharField(primary_key=True, null=False, max_length=12, verbose_name="Rut Administrador", )
     nombreAdmin = models.CharField(null=False, max_length=20, verbose_name="Nombre", )
