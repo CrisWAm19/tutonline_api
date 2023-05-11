@@ -1,15 +1,33 @@
-# from django.contrib import admin
-# from .models import *
-# # Register your models here.
-
-# admin.site.register(Administrador)
-
 from django.contrib import admin
 from .models import *
+import sys
 
-# Obtener todos los modelos de la aplicación
-modelos = [model for model in vars().values() if isinstance(model, type)]
+class BuscarProfAdmin(admin.ModelAdmin):
+    search_fields = ['rutProf']
+class BuscarEstAdmin(admin.ModelAdmin):
+    search_fields = ['rutEst']
+class BuscarProfesionAdmin(admin.ModelAdmin):
+    search_fields = ['codigoVerificador']
+class BuscarDescripcionAdmin(admin.ModelAdmin):
+    search_fields = ['id']
+class BuscarAsignaturaAdmin(admin.ModelAdmin):
+    search_fields = ['id']
+class BuscadorClaseAdmin(admin.ModelAdmin):
+    search_fields = ['id']
+class BuscadorPublicacionAdmin(admin.ModelAdmin):
+    search_fields = ['id']
+class BuscadorComentarioAdmin(admin.ModelAdmin):
+    search_fields = ['id']
+class BuscadorClaseAgendadaAdmin(admin.ModelAdmin):
+    search_fields = ['id']
 
-# Registrar todos los modelos en el admin
-for modelo in modelos:
-    admin.site.register(modelo)
+admin.site.register(Profesor,BuscarProfAdmin)
+admin.site.register(Estudiante,BuscarEstAdmin)
+admin.site.register(Profesion,BuscarProfesionAdmin)
+admin.site.register(Descripcion,BuscarDescripcionAdmin)
+admin.site.register(Asignatura,BuscarAsignaturaAdmin)
+admin.site.register(Clase,BuscadorClaseAdmin)
+admin.site.register(Publicacion,BuscadorPublicacionAdmin)
+admin.site.register(Comentario,BuscadorComentarioAdmin)
+admin.site.register(ClaseAgendada,BuscadorClaseAgendadaAdmin)
+

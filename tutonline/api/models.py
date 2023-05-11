@@ -39,7 +39,7 @@ class Profesor(models.Model):
         verbose_name_plural = "Profesores"
         db_table = "Profesor"
     def __str__(self):
-        return f"{self.rutProf} ; {self.nombreProf} {self.apellidoPaternoProf} {self.apellidoMaternoProf}"
+        return f"Rut: {self.rutProf} | Nombre profesor: {self.nombreProf} {self.apellidoPaternoProf} {self.apellidoMaternoProf}"
 
 class Estudiante(models.Model):
     rutEst = models.CharField(primary_key=True, null=False, max_length=12, verbose_name="Rut Estudiante")
@@ -60,7 +60,7 @@ class Estudiante(models.Model):
         verbose_name = "Estudiante"
         verbose_name_plural = "Estudiantes"
     def __str__(self):
-        return f"{self.rutEst} ; {self.nombreEst} {self.apellidoPaternoEst} {self.apellidoMaternoEst}"
+        return f"Rut: {self.rutEst} | Nombre estudiante: {self.nombreEst} {self.apellidoPaternoEst} {self.apellidoMaternoEst}"
 
 class Profesion(models.Model):
     codigoVerificador = models.CharField(primary_key=True, null=False, max_length=100,verbose_name="Codigo verificador")
@@ -73,6 +73,8 @@ class Profesion(models.Model):
         verbose_name = "Profesion"
         verbose_name_plural = "Profesiones"
         db_table = "Profesion"
+    def __str__(self):
+        return f"Codigo verificador: {self.codigoVerificador} | Institucion: {self.institucion} | Profesion: {self.profesion} | Anio de egreso: {self.anioEgreso} | ¿Titulo Validado?: {self.tituloValidado} | {self.rutProf}"
 
 class Descripcion(models.Model):
     descripcionTutor = models.CharField(null=False, max_length=100,verbose_name="Descripicion del tutor")
@@ -83,6 +85,9 @@ class Descripcion(models.Model):
         verbose_name_plural = "Descripciones"
         db_table = "Descripcion"
 
+    def __str__(self):
+        return f"ID: {self.id} | Descripcion del tutor: {self.descripcionTutor} | {self.rutProf}"
+    
 class Asignatura(models.Model):
     nombreAsignatura = models.CharField(null=False,max_length=30,verbose_name="Nombre de la asignatura")
     carreraPerteneciente = models.CharField(null=False,max_length=30,verbose_name="Carrera a la que pertenece")
@@ -93,7 +98,7 @@ class Asignatura(models.Model):
         verbose_name_plural = "Asignaturas"
         db_table = "Asignatura"
     def __str__(self):
-        return f"{self.id} ; {self.nombreAsignatura}"
+        return f"ID: {self.id} | Asignatura: {self.nombreAsignatura} | Carrera: {self.carreraPerteneciente}"
 
 class Clase(models.Model):
     fecha = models.DateField(verbose_name="Fecha de la clase")
@@ -106,6 +111,8 @@ class Clase(models.Model):
         verbose_name = "Clase"
         verbose_name_plural = "Clases"
         db_table = "Clase"
+    def __str__(self):
+        return f"{self.rutProf} | Fecha: {self.fecha} | Hora: {self.hora} | Modalidad: {self.modalidad} | ID asignatura: {self.idAsignatura}"
 
 class Publicacion(models.Model):
     titulo = models.CharField(null=False,max_length=30,verbose_name="Titulo de la publicacion")
@@ -120,6 +127,9 @@ class Publicacion(models.Model):
         verbose_name_plural = "Publicaciones"
         db_table = "Publicacion"
 
+    def __str__(self):
+        return f"ID: {self.id} | Fecha: {self.fecha} | Hora: {self.hora} | {self.rutEst} | ID asignatura: {self.idAsignatura}"
+    
 class Comentario(models.Model):
     comentario = models.CharField(null=False,max_length=50,verbose_name="Comentario")
     valoracion = models.IntegerField (null=False,verbose_name="Valoracion",default=1)
@@ -132,6 +142,9 @@ class Comentario(models.Model):
         verbose_name_plural = "Comentarios"
         db_table = "Comentario"
 
+    def __str__(self):
+        return f"ID: {self.id} | Valoracion: {self.valoracion} | Fecha: {self.fecha} | {self.rutEst} | {self.rutProf}"
+    
 class ClaseAgendada(models.Model):
     rutProf = models.ForeignKey(Profesor,on_delete=models.CASCADE, null=False)
     rutEst = models.ForeignKey(Estudiante,on_delete=models.CASCADE,null=False)
@@ -141,3 +154,6 @@ class ClaseAgendada(models.Model):
         verbose_name = "Clase Agendada"
         verbose_name_plural = "Clases Agendadas"
         db_table = "ClaseAgendada"
+
+    def __str__(self):
+        return f"ID: {self.id} | {self.rutProf} | {self.rutEst}"
