@@ -3,22 +3,31 @@ from .models import *
 import sys
 
 class BuscarProfAdmin(admin.ModelAdmin):
-    search_fields = ['rutProf']
+    list_display=('rutProf','nombreProf','apellidoPaternoProf','apellidoMaternoProf')
+    search_fields = ('rutProf','nombreProf','apellidoPaternoProf','apellidoMaternoProf')
 class BuscarEstAdmin(admin.ModelAdmin):
-    search_fields = ['rutEst']
+    list_display=('rutEst','nombreEst','apellidoPaternoEst','apellidoMaternoEst')
+    search_fields = ('rutEst','nombreEst','apellidoPaternoEst','apellidoMaternoEst')
 class BuscarProfesionAdmin(admin.ModelAdmin):
-    search_fields = ['codigoVerificador']
+    list_display=('codigoVerificador','institucion','profesion','anioEgreso','tituloValidado','rutProf')
+    search_fields = ('codigoVerificador','institucion','profesion','anioEgreso','tituloValidado')
 class BuscarDescripcionAdmin(admin.ModelAdmin):
-    search_fields = ['id']
+    list_display=('id','descripcionTutor','rutProf')
+    search_fields = ('id','descripcionTutor')
 class BuscarAsignaturaAdmin(admin.ModelAdmin):
-    search_fields = ['id']
+    list_display=('id','nombreAsignatura','carreraPerteneciente','descripcionAsignatura')
+    search_fields = ('id','nombreAsignatura','carreraPerteneciente','descripcionAsignatura')
 class BuscadorClaseAdmin(admin.ModelAdmin):
-    search_fields = ['id']
+    list_display=('id','fecha','hora','modalidad','rutProf','idAsignatura')
+    search_fields = ('id','fecha','hora','modalidad')
 class BuscadorPublicacionAdmin(admin.ModelAdmin):
-    search_fields = ['id']
+    list_display=('id','titulo','descripcionPublicacion','fecha','hora','rutEst','idAsignatura')
+    search_fields = ('id','titulo','descripcionPublicacion','fecha','hora')
 class BuscadorComentarioAdmin(admin.ModelAdmin):
-    search_fields = ['id']
+    list_display=('id','comentario','valoracion','fecha','rutEst','rutProf')
+    search_fields = ('id','comentario','valoracion','fecha')
 class BuscadorClaseAgendadaAdmin(admin.ModelAdmin):
+    list_display=('id','rutProf','rutEst','idClase')
     search_fields = ['id']
 
 admin.site.register(Profesor,BuscarProfAdmin)
