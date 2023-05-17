@@ -104,6 +104,7 @@ class Clase(models.Model):
     fecha = models.DateField(verbose_name="Fecha de la clase")
     hora = models.TimeField(verbose_name="Hora de la clase")
     modalidad = models.CharField(null=False,max_length=10,verbose_name="Modadlidad de la clase")
+    tarifa = models.DecimalField(null=False,max_digits=10,decimal_places=2, default=0)
     rutProf = models.ForeignKey(Profesor, on_delete=models.CASCADE,null=False)
     idAsignatura = models.ForeignKey(Asignatura, on_delete=models.CASCADE,null=False)
 
@@ -157,3 +158,15 @@ class ClaseAgendada(models.Model):
 
     def __str__(self):
         return f"ID: {self.id} | {self.rutProf} | {self.rutEst}"
+    
+class Notificacion(models.Model):
+    descripcion = models.CharField(null=False,max_length=100,verbose_name="Descripcion")
+    rutEst = models.ForeignKey(Estudiante,on_delete=models.CASCADE,null=False)
+
+    class Meta:
+        verbose_name = "Notificacion"
+        verbose_name_plural = "Notificaciones"
+        db_table = "Notificacion"
+
+    def __str__(self):
+        return f"ID: {self.id} | Descripcion: {self.descripcion} | {self.rutEst}"

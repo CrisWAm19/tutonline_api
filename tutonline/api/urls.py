@@ -30,5 +30,8 @@ urlpatterns = [
     path('clasesagendadas/', ClaseAgendadaView.as_view(),name='clasesagendadas_list'),
     path('clasesagendadas/<int:id>', ClaseAgendadaView.as_view(),name='clasesagendadas_process'),
 
+    path('notificaciones/', NotificacionView.as_view(),name='notificaciones_list'),
+    path('notificaciones/<int:id>', NotificacionView.as_view(),name='notificaciones_process'),
+
 
 ]

@@ -583,3 +583,60 @@ class ClaseAgendadaView(View):
         else:
             datos = {'message': "Clase agendada no encontrada"}
         return JsonResponse(datos)
+
+class NotificacionView(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get(self, request, id=0):
+        if (id>0):
+            notificaciones = list(Notificacion.objects.filter(id=id).values())
+            if len(notificaciones)>0:
+                notificacion = notificaciones[0]
+                datos = {'message': "Success", 'notificacion': notificacion}
+            else:
+                datos = {'message': "Notificacion no encontrada"}
+            return JsonResponse(datos)
+        else:
+            notificaciones = list(Notificacion.objects.values())
+            if len(notificaciones)>0:
+                datos = {'message': "Success", 'notificaciones': notificaciones}
+            else:
+                datos = {'message': "No se encontraron notificaciones"}
+            return JsonResponse(datos)
+    
+    def post(self, request):
+            #convertimos el formato de json a un diccionario de python
+            jd = json.loads(request.body)
+            Notificacion.objects.create(
+                id = jd['id'],
+                descripcion = jd['descripcion'],
+                rutEst_id = jd['rutEst_id']                
+                )
+            datos = {'message': "Success"}
+            return JsonResponse(datos)
+    
+    def put(self, request, id=0):
+        jd = json.loads(request.body)
+        notificaciones = list(Notificacion.objects.filter(id=id).values())
+        if len(notificaciones)>0:
+            #dif entre filter y get. filter: al no encontrar, no devuelve error. get es lo opuesto
+            notificacion = Notificacion.objects.get(id=id)
+            notificacion.id = jd['id']
+            notificacion.descripcion = jd['descripcion']
+            notificacion.rutEst_id = jd['rutEst_id']            
+            notificacion.save()
+            datos = {'message': "Success"}
+        else:
+            datos = {'message': "Notificacion no encontrada"}
+        return JsonResponse(datos)
+    
+    def delete(self, request, id=0):
+        notificaiones = list(Notificacion.objects.filter(id=id).values())
+        if len(notificaiones)>0:
+            Notificacion.objects.filter(id=id).delete()
+            datos = {'message': "Success"}
+        else:
+            datos = {'message': "Notificacion no encontrada"}
+        return JsonResponse(datos)

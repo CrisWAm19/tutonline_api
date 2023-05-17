@@ -29,6 +29,9 @@ class BuscadorComentarioAdmin(admin.ModelAdmin):
 class BuscadorClaseAgendadaAdmin(admin.ModelAdmin):
     list_display=('id','rutProf','rutEst','idClase')
     search_fields = ['id']
+class BuscadorNotificacionAdmin(admin.ModelAdmin):
+    list_display=('id','descripcion','rutEst')
+    search_fields = ('id','descripcion')
 
 admin.site.register(Profesor,BuscarProfAdmin)
 admin.site.register(Estudiante,BuscarEstAdmin)
@@ -39,4 +42,5 @@ admin.site.register(Clase,BuscadorClaseAdmin)
 admin.site.register(Publicacion,BuscadorPublicacionAdmin)
 admin.site.register(Comentario,BuscadorComentarioAdmin)
 admin.site.register(ClaseAgendada,BuscadorClaseAgendadaAdmin)
+admin.site.register(Notificacion,BuscadorNotificacionAdmin)
 
