@@ -18,8 +18,8 @@ class BuscarAsignaturaAdmin(admin.ModelAdmin):
     list_display=('id','nombreAsignatura','carreraPerteneciente','descripcionAsignatura')
     search_fields = ('id','nombreAsignatura','carreraPerteneciente','descripcionAsignatura')
 class BuscadorClaseAdmin(admin.ModelAdmin):
-    list_display=('id','fecha','hora','modalidad','rutProf','idAsignatura')
-    search_fields = ('id','fecha','hora','modalidad')
+    list_display=('id','fecha','hora','modalidad','tarifa','rutProf','idAsignatura')
+    search_fields = ('id','fecha','hora','modalidad','tarifa')
 class BuscadorPublicacionAdmin(admin.ModelAdmin):
     list_display=('id','titulo','descripcionPublicacion','fecha','hora','rutEst','idAsignatura')
     search_fields = ('id','titulo','descripcionPublicacion','fecha','hora')
