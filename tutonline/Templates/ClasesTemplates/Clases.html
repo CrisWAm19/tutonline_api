@@ -1,0 +1,31 @@
+{% extends "../HomeTemplates/Base.html" %}
+
+{% block content %}
+
+{% if clases %}
+{% for clase in clases %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card card-body">
+                <img src="../../static/images/user.svg" alt="">
+                <p class="card-text">profesor: {{clase.rutProf.nombreProf}}</p>
+                <p class="card-text">Ubicacion: {{clase.rutProf.comunaProf}}</p>
+                <h3 class="card-title">Clase:</h3>
+                <p class="card-text">Tarifa: {{ clase.id }}</p>
+                <p class="card-text">Fecha: {{ clase.fecha }}</p>
+                <p class="card-text">Hora: {{ clase.hora }}</p>
+                <p class="card-text">Modalidad: {{clase.modalidad}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% else %}
+<div class="alert alert-primary" role="alert">
+    <strong>No se encuentran boletas de compras en el sistema</strong>
+</div>
+{% endif %}
+
+{% endblock %}
