@@ -4,22 +4,30 @@
 
 {% if clases %}
 {% for clase in clases %}
-<div class="container">
+<!-- <div class="container">
     <div class="row">
-        <div class="col-md-4 mb-4">
+        <div class="col-md-4 mb-4"> -->
+<div class="container text-center">
+    <div class="row align-items-start">
+        <div class="col-4">
             <div class="card card-body">
-                <img src="../../static/images/user.svg" alt="">
+                <img class="img-size-clases" src="../../static/images/user.svg" alt="">
                 <p class="card-text">profesor: {{clase.rutProf.nombreProf}}</p>
                 <p class="card-text">Ubicacion: {{clase.rutProf.comunaProf}}</p>
+                <a type="button" href="" class="btn btn-primary">Mi botón</a>
                 <h3 class="card-title">Clase:</h3>
                 <p class="card-text">Tarifa: {{ clase.id }}</p>
                 <p class="card-text">Fecha: {{ clase.fecha }}</p>
                 <p class="card-text">Hora: {{ clase.hora }}</p>
                 <p class="card-text">Modalidad: {{clase.modalidad}}</p>
             </div>
+
         </div>
     </div>
 </div>
+<!-- </div>
+    </div>
+</div> -->
 {% endfor %}
 
 {% else %}
