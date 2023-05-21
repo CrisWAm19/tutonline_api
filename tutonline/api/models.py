@@ -32,7 +32,7 @@ class Profesor(models.Model):
     numeroTelefonoProf = models.IntegerField()
     regionProf = models.CharField(null=False, max_length=30, verbose_name="Region")
     comunaProf = models.CharField(null=False, max_length=30, verbose_name="Comuna")
-    fotoPerfil = models.BinaryField(null=True,verbose_name="Foto de perfil")
+    fotoPerfil = models.ImageField(null=True, verbose_name="Foto de perfil", default='../img/usuarios.png')
         
     class Meta:
         verbose_name = "Profesor"
