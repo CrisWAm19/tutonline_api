@@ -3,7 +3,22 @@
     /* Otros estilos según tus necesidades */
   }
 
-.img-size-clases{
+/* .img-size-clases{
   width: 50px;
   height: 50px;
 }
+
+.flex-container{
+  display: flex;
+}
+
+.flex-container div{
+  width: 100px;
+  margin: 10px;
+  text-align: center;
+  line-height: 75px;
+  font-size: 30px;
+}
+*{
+  box-sizing: border-box;
+} */
