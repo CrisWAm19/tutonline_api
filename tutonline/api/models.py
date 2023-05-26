@@ -2,25 +2,6 @@ from django.db import models
 
 # Create your models here.
 
-from django.db import models
-
-# Create your models here.G
-class Administrador(models.Model):
-    rutAdmin = models.CharField(primary_key=True, null=False, max_length=12, verbose_name="Rut Administrador", )
-    nombreAdmin = models.CharField(null=False, max_length=20, verbose_name="Nombre", )
-    apellidoPaternoAdmin = models.CharField(null=False, max_length=20,verbose_name="Apellido Paterno")
-    apellidoMaternoAdmin = models.CharField(null=False, max_length=20,verbose_name="Apellido Materno")
-    correoAdmin = models.CharField(null=False, max_length=35,verbose_name="Correo")
-    contrasenaAdmin = models.CharField(null=False, max_length=12, verbose_name="Contrasenia")
-    numeroTelefonoAdmin = models.IntegerField()
-      
-    class Meta:
-        verbose_name = "Administrador"
-        verbose_name_plural = "Administradores"
-        db_table = "Administrador"
-    def __str__(self):
-        return f"{self.rutAdmin} ; {self.nombreAdmin} {self.apellidoPaternoAdmin} {self.apellidoMaternoAdmin}"
-
 class Profesor(models.Model):
     rutProf = models.CharField(primary_key=True, null=False, max_length=12, verbose_name="Rut Profesor")
     nombreProf = models.CharField(null=False, max_length=20, verbose_name="Nombre", )
