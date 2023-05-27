@@ -1,0 +1,10 @@
+{% extends "../HomeTemplates/Base.html" %}
+{% load static %}
+{% block content %}
+<!-- {% csrf_token %} -->
+{% if user.tipoDeUsuario == "Tutor" %}
+<h1>hola tutor</h1>
+{% else %}
+<h1>hola Estudiante {{ user.username }}</h1>
+{% endif %}
+{% endblock content %}

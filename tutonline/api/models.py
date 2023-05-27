@@ -1,6 +1,13 @@
 from django.db import models
-
+from django.contrib.auth.models import AbstractUser
 # Create your models here.
+
+class User(AbstractUser):
+    USUARIO_CHOICES= (
+        ('Estudiante','Estudiante'),
+        ('Tutor','Tutor')
+    )
+    tipoDeUsuario = models.CharField(null=False, max_length=10,choices=USUARIO_CHOICES,default='Estudiante', verbose_name='Tipo de usuario')
 
 class Profesor(models.Model):
     rutProf = models.CharField(primary_key=True, null=False, max_length=12, verbose_name="Rut Profesor")
@@ -14,7 +21,6 @@ class Profesor(models.Model):
     regionProf = models.CharField(null=False, max_length=30, verbose_name="Region")
     comunaProf = models.CharField(null=False, max_length=30, verbose_name="Comuna")
     fotoPerfil = models.ImageField(null=True, verbose_name="Foto de perfil", default='../img/usuarios.png')
-        
     class Meta:
         verbose_name = "Profesor"
         verbose_name_plural = "Profesores"

@@ -1,0 +1,14 @@
+{% extends "../HomeTemplates/Base.html" %}
+{% load static %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+<h2>Inicia Sesión</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form | crispy }}
+    <!-- <input type="text" name="username" id="" placeholder="Nombre de usuario"> <br>
+    <input type="password" name="password" id="" placeholder="Contraseña"><br> -->
+    <button type="submit">Iniciar Sesión</button>
+</form>
+{% endblock %}

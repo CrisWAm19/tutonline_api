@@ -33,6 +33,7 @@ class BuscadorNotificacionAdmin(admin.ModelAdmin):
     list_display=('id','descripcion','rutEst')
     search_fields = ('id','descripcion')
 
+admin.site.register(User)
 admin.site.register(Profesor,BuscarProfAdmin)
 admin.site.register(Estudiante,BuscarEstAdmin)
 admin.site.register(Profesion,BuscarProfesionAdmin)

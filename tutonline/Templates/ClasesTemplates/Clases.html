@@ -1,37 +1,40 @@
 {% extends "../HomeTemplates/Base.html" %}
 {% load static %}
 {% block content %}
-<!-- <link rel="stylesheet" href="{% static '../static/css/styles.css' %}"> -->
-  <!-- text-center -->
-    <!-- <div class="row"> -->
-        <div class="row "> <!-- align-items-start -->
-        <div class="col-lg-4" ">
+<div class="row "> <!-- align-items-start -->
+    <div class="col-lg-4" ">
             <h1>Buscador:</h1>
-            <input type="search" class="mb-2">
-        </div>
-    <!-- </div> -->
-        {% if clases %}
-        <div class="container">
-            <div class="row">
-                {% for clase in clases %}
-                <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
-                    <div class="card card-body">
-                        <img class="img-size-clases"  style="width: 50px; height: 50px;" src="../../static/images/user.svg" alt="">
-                        <p class="card-text">profesor: {{clase.rutProf.nombreProf}}</p>
-                        <p class="card-text">Ubicacion: {{clase.rutProf.comunaProf}}</p>
-                        <a type="button" href="" class="btn btn-primary">Mi botón</a>
-                        <h3 class="card-title">Clase:</h3>
-                        <p class="card-text">Tarifa: {{ clase.id }}</p>
-                        <p class="card-text">Fecha: {{ clase.fecha }}</p>
-                        <p class="card-text">Hora: {{ clase.hora }}</p>
-                        <p class="card-text">Modalidad: {{clase.modalidad}}</p>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
+            <input type=" search" class="mb-2">
+        <!-- {% if user.tipoDeUsuario == "Tutor" %}  
+                <h1>hola tutor</h1>
         {% else %}
+                <h1>hola Estudiante</h1>
+        {% endif %} -->
     </div>
+    <!-- </div> -->
+    {% if clases %}
+    <div class="container">
+        <div class="row">
+            {% for clase in clases %}
+            <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
+                <div class="card card-body">
+                    <img class="img-size-clases" style="width: 50px; height: 50px;" src="../../static/images/user.svg"
+                        alt="">
+                    <p class="card-text">profesor: {{clase.rutProf.nombreProf}}</p>
+                    <p class="card-text">Ubicacion: {{clase.rutProf.comunaProf}}</p>
+                    <a type="button" href="" class="btn btn-primary">Mi botón</a>
+                    <h3 class="card-title">Clase:</h3>
+                    <p class="card-text">Tarifa: {{ clase.id }}</p>
+                    <p class="card-text">Fecha: {{ clase.fecha }}</p>
+                    <p class="card-text">Hora: {{ clase.hora }}</p>
+                    <p class="card-text">Modalidad: {{clase.modalidad}}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% else %}
+</div>
 <div class="alert alert-primary" role="alert">
     <strong>No se encuentran boletas de compras en el sistema</strong>
 </div>

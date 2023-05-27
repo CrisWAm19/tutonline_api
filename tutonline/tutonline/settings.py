@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'crispy_forms',
+    'crispy_bootstrap5',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,8 +44,12 @@ INSTALLED_APPS = [
     'corsheaders',
     'api',
     'Home',
-    'ClasesApp'
+    'ClasesApp',
+    'UsuarioApp'
 ]
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -93,7 +99,7 @@ DATABASES = {
         'PORT': '3306',
         'USER': 'root',
         'PASSWORD': 'Admin.123',
-        'NAME': 'tutonline_DB',
+        'NAME': 'pruebaUser',
         'OPTIONS':{
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         }
@@ -142,3 +148,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'api.User'
+LOGIN_REDIRECT_URL = 'Perfil'
+LOGOUT_REDIRECT_URL = 'inicio'

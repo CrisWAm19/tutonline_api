@@ -26,12 +26,12 @@
             </button>
             <div class="collapse navbar-collapse navbar-end" id="navbarNav">
                 <ul class="navbar-nav">
+                    {% for key, value in navbar_items.items %}
                     <li class="nav-item">
-                        {% for key, value in navbar_items.items %}
                             <a class="nav-item" href="{{ value }}">{{ key }}</a>
+                        </li>
                         {% endfor %}
 
-                    </li>
                 </ul>
             </div>
         </div>
