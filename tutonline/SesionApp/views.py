@@ -18,7 +18,7 @@ def register(request):
     }
     if request.method == 'POST':
         user_creation_form = CustomUserCreationForm(data=request.POST)
-        # print(user_creation_form)
+        print(user_creation_form)
         if user_creation_form.is_valid():
             user_creation_form.save()
             user = authenticate(username=user_creation_form.cleaned_data['username'], password=user_creation_form.cleaned_data['password1'])
