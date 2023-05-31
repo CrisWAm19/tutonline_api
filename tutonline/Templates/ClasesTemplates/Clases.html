@@ -18,10 +18,9 @@
             {% for clase in clases %}
             <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
                 <div class="card card-body">
-                    <img class="img-size-clases" style="width: 50px; height: 50px;" src="../../static/images/user.svg"
-                        alt="">
-                    <p class="card-text">profesor: {{clase.rutProf.nombreProf}}</p>
-                    <p class="card-text">Ubicacion: {{clase.rutProf.comunaProf}}</p>
+                    <img class="img-size-clases" style="width: 50px; height: 50px;" src="../../static/images/user.svg"alt="">
+                    <p class="card-text">profesor: {{clase.idProfesor.first_name}}</p>
+                    <p class="card-text">Ubicacion: {{clase.idProfesor.comuna}}</p>
                     <a type="button" href="" class="btn btn-primary">Mi botón</a>
                     <h3 class="card-title">Clase:</h3>
                     <p class="card-text">Tarifa: {{ clase.id }}</p>

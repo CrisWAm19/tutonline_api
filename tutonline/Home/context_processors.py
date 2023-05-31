@@ -5,7 +5,7 @@ def navbar(request):
     current_url = request.path_info
     resolved_url = resolve(current_url)
     url_name = resolved_url.url_name
-    if url_name == 'inicio' or url_name == 'clases' or url_name == 'Perfil':
+    if url_name == 'inicio' or url_name == 'clases' or url_name == 'Perfil' or url_name == 'Agregar clases':
         if request.user.is_authenticated:
             navbar_items = {
                 'Inicio': reverse('inicio'),

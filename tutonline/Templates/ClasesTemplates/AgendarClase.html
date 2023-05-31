@@ -1,0 +1,10 @@
+{% extends "../HomeTemplates/Base.html" %}
+{% load static %}
+{% block content %}
+{% load crispy_forms_tags %}
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form | crispy }}
+    <input type="submit" value="Agendar Clase" class="btn btn-primary">
+</form>
+{% endblock content %}

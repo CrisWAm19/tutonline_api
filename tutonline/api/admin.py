@@ -2,40 +2,35 @@ from django.contrib import admin
 from .models import *
 import sys
 
-class BuscarProfAdmin(admin.ModelAdmin):
-    list_display=('rutProf','nombreProf','apellidoPaternoProf','apellidoMaternoProf')
-    search_fields = ('rutProf','nombreProf','apellidoPaternoProf','apellidoMaternoProf')
-class BuscarEstAdmin(admin.ModelAdmin):
-    list_display=('rutEst','nombreEst','apellidoPaternoEst','apellidoMaternoEst')
-    search_fields = ('rutEst','nombreEst','apellidoPaternoEst','apellidoMaternoEst')
+class BuscarUserAdmin(admin.ModelAdmin):
+    list_display=('rut','first_name','last_name','tipoDeUsuario')
+    search_fields = ('rut','first_name','last_name','tipoDeUsuario')
 class BuscarProfesionAdmin(admin.ModelAdmin):
-    list_display=('codigoVerificador','institucion','profesion','anioEgreso','tituloValidado','rutProf')
+    list_display=('codigoVerificador','institucion','profesion','anioEgreso','tituloValidado','idProfesor')
     search_fields = ('codigoVerificador','institucion','profesion','anioEgreso','tituloValidado')
 class BuscarDescripcionAdmin(admin.ModelAdmin):
-    list_display=('id','descripcionTutor','rutProf')
+    list_display=('id','descripcionTutor','idProfesor')
     search_fields = ('id','descripcionTutor')
 class BuscarAsignaturaAdmin(admin.ModelAdmin):
     list_display=('id','nombreAsignatura','carreraPerteneciente','descripcionAsignatura')
     search_fields = ('id','nombreAsignatura','carreraPerteneciente','descripcionAsignatura')
 class BuscadorClaseAdmin(admin.ModelAdmin):
-    list_display=('id','fecha','hora','modalidad','tarifa','rutProf','idAsignatura')
+    list_display=('id','fecha','hora','modalidad','tarifa','idProfesor','idAsignatura')
     search_fields = ('id','fecha','hora','modalidad','tarifa')
 class BuscadorPublicacionAdmin(admin.ModelAdmin):
-    list_display=('id','titulo','descripcionPublicacion','fecha','hora','rutEst','idAsignatura')
+    list_display=('id','titulo','descripcionPublicacion','fecha','hora','idEstudiante','idAsignatura')
     search_fields = ('id','titulo','descripcionPublicacion','fecha','hora')
 class BuscadorComentarioAdmin(admin.ModelAdmin):
-    list_display=('id','comentario','valoracion','fecha','rutEst','rutProf')
+    list_display=('id','comentario','valoracion','fecha','idEstudianteEmisor','idProfesorReceptor')
     search_fields = ('id','comentario','valoracion','fecha')
 class BuscadorClaseAgendadaAdmin(admin.ModelAdmin):
-    list_display=('id','rutProf','rutEst','idClase')
+    list_display=('id','idEstudiante','idProfesor','idProfesor')
     search_fields = ['id']
 class BuscadorNotificacionAdmin(admin.ModelAdmin):
-    list_display=('id','descripcion','rutEst')
+    list_display=('id','descripcion','idEstudiante')
     search_fields = ('id','descripcion')
 
-admin.site.register(User)
-admin.site.register(Profesor,BuscarProfAdmin)
-admin.site.register(Estudiante,BuscarEstAdmin)
+admin.site.register(User, BuscarUserAdmin)
 admin.site.register(Profesion,BuscarProfesionAdmin)
 admin.site.register(Descripcion,BuscarDescripcionAdmin)
 admin.site.register(Asignatura,BuscarAsignaturaAdmin)

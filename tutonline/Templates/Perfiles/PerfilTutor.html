@@ -1,10 +1,55 @@
 {% extends "../HomeTemplates/Base.html" %}
 {% load static %}
 {% block content %}
-<!-- {% csrf_token %} -->
 {% if user.tipoDeUsuario == "Tutor" %}
-<h1>hola tutor</h1>
+<div class="row">
+    <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
+        <div class="card card-body">
+            <img class="img-size-clases" style="width: 50px; height: 50px;" src="../../static/images/user.svg" alt="">
+            <p class="card-text">Nombre: {{user.first_name}}</p>
+            <p class="card-text">Edad:</p>
+            <p class="card-text">Ubicación: {{user.comuna}}</p>
+            <p class="card-text">Titulado en: {{user.comuna}}</p>
+            {% for p in profesion %}
+            <p class="card-text">Titulado en: {{p.institucion}}</p>
+            <p class="card-text">Profesion: {{p.profesion}}</p>
+            <p class="card-text">Años de experiencia: {{ anios_pasados }}</p>
+            {% endfor %}
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Ver descripción
+            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Descripcion del tutor</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            {% for d in descripcion %}
+                            <p class="card-text">{{ d.descripcionTutor }}</p>
+                            {% endfor %}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="btn-group mt-3" role="group" aria-label="Basic example">
+    <a href="../../Clases/agregarClase/" class="btn btn-primary">Publicar clase</a>
+    <a href="../../Clases/agendarClase/" class="btn btn-primary">Agendar Clase</a>
+    <a href="#" class="btn btn-primary">Comentarios</a>
+</div>
 {% else %}
-<h1>hola Estudiante {{ user.username }}</h1>
+<img class="img-size-clases" style="width: 50px; height: 50px;" src="../../static/images/user.svg" alt="">
+<p class="card-text">Nombre: {{user.first_name}}</p>
+
 {% endif %}
 {% endblock content %}
