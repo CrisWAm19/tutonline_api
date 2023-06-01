@@ -21,11 +21,16 @@ class User(AbstractUser):
         return self.rut
 
 class Profesion(models.Model):
+    VALIDACION_CHOICES= (
+        ('No','No'),
+        ('Si','Si'),
+        ('En proceso','En proceso')
+    )
     codigoVerificador = models.CharField(primary_key=True, null=False, max_length=100,verbose_name="Codigo verificador")
     institucion = models.CharField(null=False, max_length=30, verbose_name="Institucion")
     profesion = models.CharField(null=False, max_length=30,verbose_name="Profesion")
     anioEgreso = models.DateField(verbose_name="Anio de egreso")
-    tituloValidado = models.CharField(null=True, max_length=9,verbose_name="Titulo validado")
+    tituloValidado = models.CharField(null=True, max_length=10,verbose_name="Titulo validado",choices=VALIDACION_CHOICES,default='En proceso')
     idProfesor = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     class Meta:
         verbose_name = "Profesion"

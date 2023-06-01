@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.http import JsonResponse
 # Create your views here.
 
-@login_required
+# @login_required
 def ListClases(request):
     clases = Clase.objects.all().select_related('idProfesor')
     dataClases = {'clases' : clases}
