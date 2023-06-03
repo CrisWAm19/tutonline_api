@@ -6,20 +6,16 @@
     <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
         <div class="card card-body">
             <img class="img-size-clases" style="width: 50px; height: 50px;" src="../../static/images/user.svg" alt="">
-            <p class="card-text">Nombre: {{user.first_name}}</p>
-            <!-- <p class="card-text">Edad:</p> -->
-            <p class="card-text">Ubicación: {{user.comuna}}</p>
-            <p class="card-text">Titulado en: {{user.comuna}}</p>
+            <p class="card-text">
+                Nombre: {{user.first_name}} <br>
+                <!-- <p class="card-text">Edad:</p> -->
+                Ubicación: {{user.comuna}}</p>
             {% for p in profesion %}
-            <p class="card-text">Titulado en: {{p.institucion}}</p>
-            <p class="card-text">Profesion: {{p.profesion}}</p>
-            <p class="card-text">Años de experiencia: {{ anios_pasados }}</p>
+            <p class="card-text">Titulado en: {{p.institucion}} <br>Profesion: {{p.profesion}} <br>Años de experiencia:
+                {{ anios_pasados }}</p>
             {% endfor %}
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                Ver descripción
-            </button>
-            <!-- Modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Ver
+                descripción</button>
             <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
@@ -44,12 +40,121 @@
 </div>
 <div class="btn-group mt-3" role="group" aria-label="Basic example">
     <a href="../../Clases/agregarClase/" class="btn btn-primary">Publicar clase</a>
-    <a href="../../Clases/agendarClase/" class="btn btn-primary">Agendar Clase</a>
+    <a href="../../Clases/ClasesAgendadas/" class="btn btn-primary">Clases agendadas</a>
+    <!-- <a href="../../Clases/agendarClase/" class="btn btn-primary">Clases agendadas</a> -->
     <a href="#" class="btn btn-primary">Comentarios</a>
+    <a href="#" class="btn btn-primary">Solicitudes {}</a>
+</div>
+
+{% if clases %}
+<div class="container">
+    <div class="row">
+        {% for clase in clases %}
+        <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
+            <div class="card card-body">
+                <p class="card-text">Carrera: {{clase.idAsignatura.idCarrera.nombreCarrera}}<br>Asignatura:
+                    {{clase.idAsignatura.nombreAsignatura}}<br>
+                    Modalidad: {{clase.modalidad}}<br>Fecha: {{ clase.fecha }}<br>Hora: {{ clase.hora }}<br>Tarifa: {{
+                    clase.id }} CLP</p>
+                {% if user.tipoDeUsuario == "Estudiante" %}
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#staticBackdropSolicitud">Solicitar clase</button>
+                <div class="modal fade" id="staticBackdropSolicitud" data-bs-backdrop="static" data-bs-keyboard="false"
+                    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Solicitud de agendamiento</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Se le enviará una solicitud al tutor para agendar esta clase. <br>
+                                Detalles de la clase: <br>
+                                Carrera: {{clase.idAsignatura.idCarrera.nombreCarrera}} <br>
+                                Asignatura: {{clase.idAsignatura.nombreAsignatura}} <br>
+                                Modalidad: {{clase.modalidad}} <br>
+                                Fecha: {{ clase.fecha }} <br>
+                                Hora: {{ clase.hora }} <br>
+                                Tarifa: {{ clase.id }} CLP
+                            </div>
+                            <div class="modal-footer d-flex flex-column align-items-center">
+                                <span>¿Desea enviar la solicitud?</span>
+                                <div class="d-flex">
+                                    <button type="button" class="btn btn-secondary me-1"
+                                        data-bs-dismiss="modal">Cancelar</button>
+                                    <a type="button" href="#" class="btn btn-primary btn-small ml-2">Enviar
+                                        solicitud</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 {% else %}
-<img class="img-size-clases" style="width: 50px; height: 50px;" src="../../static/images/user.svg" alt="">
-<p class="card-text">Nombre: {{user.first_name}}</p>
+</div>
+<div class="alert alert-primary" role="alert">
+    <strong>No se encuentran boletas de compras en el sistema</strong>
+</div>
+{% endif %}
 
+{% else %}
+<div class="row">
+    <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
+        <div class="card card-body">
+            <img class="img-size-clases" style="width: 50px; height: 50px;" src="../../static/images/user.svg" alt="">
+            <p class="card-text">
+                Nombre: {{user.first_name}} {{ user.last_name }} <br>
+                Edad: {} <br>
+                Ubicación: {{user.comuna}}</p>
+            {% for p in profesion %}
+            <p class="card-text">Titulado en: {{p.institucion}} <br>Profesion: {{p.profesion}} <br>Años de experiencia:
+                {{ anios_pasados }}</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+<div class="btn-group-container">
+    <div class="btn-group mt-3" role="group" aria-label="Basic example">
+        <a href="../../../Perfil/Perfil/" class="btn btn-primary">Publicaciones</a>
+        <a href="../../Clases/ClasesAgendadas/" class="btn btn-primary">Mis solicitudes</a>
+    </div>
+    <div class="btn-group mt-3" role="group" aria-label="Basic example">
+        <a href="../../../Perfil/Publicacion/" class="btn btn-primary">Publicar</a>
+        <a href="../../Clases/ClasesAgendadas/" class="btn btn-primary">Mis solicitudes</a>
+    </div>
+</div>
+
+<!--  -->
+{% if publicaciones %}
+<div class="container">
+    <div class="row">
+        {% for publicacion in publicaciones %}
+        <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
+            <div class="card card-body">
+                <p class="card-text text-center">{{publicacion.titulo}}</p>
+                <p class="card-text">Asignatura: {{publicacion.idAsignatura.nombreAsignatura}}<br>
+                    Región: {{user.region}}<br>Comuna: {{ user.comuna }}</p>
+                <div class="border rounded-0 mb-2">
+                    <p class="card-text ms-2">{{publicacion.descripcionPublicacion}}</p>
+                </div>
+                {% if user.tipoDeUsuario == "Estudiante" %}
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% else %}
+</div>
+<div class="alert alert-primary" role="alert">
+    <strong>No se encuentran boletas de compras en el sistema</strong>
+</div>
 {% endif %}
 {% endblock content %}

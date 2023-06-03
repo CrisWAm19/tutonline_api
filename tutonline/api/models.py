@@ -49,17 +49,25 @@ class Descripcion(models.Model):
     def __str__(self):
         return f"ID: {self.id} | Descripcion del tutor: {self.descripcionTutor} | {self.idProfesor}"
     
-class Asignatura(models.Model):
-    nombreAsignatura = models.CharField(null=False,max_length=30,verbose_name="Nombre de la asignatura")
-    carreraPerteneciente = models.CharField(null=False,max_length=30,verbose_name="Carrera a la que pertenece")
-    descripcionAsignatura = models.CharField(null=False,max_length=500,verbose_name="Descripcion de la asignatura")
+class Carrera(models.Model):
+    nombreCarrera = models.CharField(unique=True, null=False,max_length=40,verbose_name="Nombre de la carrera")
+    class Meta:
+        verbose_name = "Carrera"
+        verbose_name_plural = "Carreras"
+        db_table = "Carrera"
 
+    def __str__(self):
+        return f"ID: {self.id} | Carrera: {self.nombreCarrera}"
+class Asignatura(models.Model):
+    nombreAsignatura = models.CharField(unique=True, null=False,max_length=30,verbose_name="Nombre de la asignatura")
+    descripcionAsignatura = models.CharField(null=False,max_length=500,verbose_name="Descripcion de la asignatura")
+    idCarrera = models.ForeignKey(Carrera, on_delete=models.CASCADE, null=False)
     class Meta:
         verbose_name = "Asignatura"
         verbose_name_plural = "Asignaturas"
         db_table = "Asignatura"
     def __str__(self):
-        return f"ID: {self.id} | Asignatura: {self.nombreAsignatura} | Carrera: {self.carreraPerteneciente}"
+        return f"ID: {self.id} | Asignatura: {self.nombreAsignatura} | Carrera: {self.idCarrera}"
 
 class Clase(models.Model):
     fecha = models.DateField(verbose_name="Fecha de la clase")
@@ -131,3 +139,22 @@ class Notificacion(models.Model):
 
     def __str__(self):
         return f"ID: {self.id} | Descripcion: {self.descripcion} | {self.idEstudiante}"
+
+class Solicitud(models.Model):
+    ESTADO_CHOICES= (
+        ('Rechazada','Rechazada'),
+        ('Aceptada','Aceptada'),
+        ('Pendiente','Pendiente')
+    )
+    estadoSolicitud = models.CharField(null=False, max_length=9,verbose_name="Estado de la solicitud",choices=ESTADO_CHOICES,default='Pendiente')
+    fecha = models.DateField(auto_now_add=True, verbose_name="Fecha de solicitud")
+    idEstudiante = models.ForeignKey(User, related_name='estudiante_solicitante', on_delete=models.CASCADE, null=False)
+    idProfesor = models.ForeignKey(User, related_name='profesor_solicitado', on_delete=models.CASCADE, null=False)
+    idClase = models.ForeignKey(Clase,on_delete=models.CASCADE,null=False)
+
+    class Meta:
+        verbose_name = "Solicitud"
+        verbose_name_plural = "Solicitudes"
+        db_table = "Solicitud"
+    def __str__(self):
+        return f"ID: {self.id} | {self.idProfesor} | {self.idEstudiante} | {self.idClase}"

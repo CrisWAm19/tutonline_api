@@ -26,6 +26,12 @@ def AgregarClase(request):
             data["form"] = form
     return render (request, 'ClasesTemplates/AgregarClase.html',data)
 
+def ListaClasesAgendadas(request):
+    user_id = request.user.id
+    clasesAgendadas = ClaseAgendada.objects.filter(idProfesor_id=user_id)
+    dataClaseAgendada = {'clasesAgendadas':clasesAgendadas}
+    return render(request,'ClasesTemplates/ClasesAgendadas.html',dataClaseAgendada)
+
 def AgendarClase(request):
     data = {'form': FormClaseAgendada(initial={'idProfesor': request.user.id})}
     if request.method == 'POST':
@@ -39,3 +45,4 @@ def AgendarClase(request):
         else: 
             data["form"] = form
     return render (request, 'ClasesTemplates/AgendarClase.html',data)
+

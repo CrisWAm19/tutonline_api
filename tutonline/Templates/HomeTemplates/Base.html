@@ -12,7 +12,7 @@
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{% static '../static/css/styles.css' %}">
-    
+
     <title>TutOnline</title>
 </head>
 
@@ -28,23 +28,20 @@
                 <ul class="navbar-nav">
                     {% for key, value in navbar_items.items %}
                     <li class="nav-item">
-                            <a class="nav-item" href="{{ value }}">{{ key }}</a>
-                        </li>
-                        {% endfor %}
+                        <a class="nav-item" href="{{ value }}">{{ key }}</a>
+                    </li>
+                    {% endfor %}
 
                 </ul>
             </div>
         </div>
     </nav>
     <main>
-            <div class="container">
-                {% block content %}
-                
-                {% endblock %}
-            </div>
-            
+        <div class="container">
+            {% block content %}
 
+            {% endblock %}
+        </div>
     </main>
 </body>
-
 </html>

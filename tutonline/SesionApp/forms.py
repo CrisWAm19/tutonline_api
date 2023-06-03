@@ -1,6 +1,21 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from api.models import User
+import json
+# comunas_data = {
+#     "regiones": [
+#         {
+#             "region": "Arica y Parinacota",
+#             "comunas": ["Arica", "Camarones", "Putre", "General Lagos"]
+#         },
+#         {
+#             "region": "Tarapacá",
+#             "comunas": ["Iquique", "Alto Hospicio", "Pozo Almonte", "Camiña", "Colchane", "Huara", "Pica"]
+#         },
+#     ]
+    
+# }
+
 
 # from 
 class CustomUserCreationForm(UserCreationForm):
@@ -17,6 +32,8 @@ class CustomUserCreationForm(UserCreationForm):
         label='Confirmar Contraseña',
         widget=forms.PasswordInput,
     )
+    # = forms.ChoiceField(choices=[(region, region) for region in comunas_data.keys()], label='Región')
+    # comuna = forms.ChoiceField(choices=[], label='Comuna')
     class Meta:
         model = User
         fields =['username',
@@ -45,3 +62,4 @@ class CustomUserCreationForm(UserCreationForm):
             'password1':'Contraseña',
             'password2':'Confirmar Contraseña',
         }
+    

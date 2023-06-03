@@ -3,35 +3,58 @@
 {% block content %}
 <div class="row "> <!-- align-items-start -->
     <div class="col-lg-4" ">
-            <h1>Buscador:</h1>
-            <input type=" search" class="mb-2">
-        <!-- {% if user.tipoDeUsuario == "Tutor" %}  
-                <h1>hola tutor</h1>
-        {% else %}
-                <h1>hola Estudiante</h1>
-        {% endif %} -->
+        <h1>Buscador:</h1>
+        <input type=" search" class="mb-2">
     </div>
-    <!-- </div> -->
     {% if clases %}
     <div class="container">
         <div class="row">
             {% for clase in clases %}
             <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
                 <div class="card card-body">
-                    <img class="img-size-clases" style="width: 50px; height: 50px;" src="../../static/images/user.svg"alt="">
-                    <p class="card-text">Profesor: {{clase.idProfesor.first_name}}</p>
-                    <p class="card-text">Ubicación: {{clase.idProfesor.comuna}}</p>
-                    <a type="button" href="" class="btn btn-primary">Ver perfil</a>
-                    <h3 class="card-title">Clase:</h3>
-                    <p class="card-text">Tarifa: {{ clase.id }}</p>
-                    <p class="card-text">Fecha: {{ clase.fecha }}</p>
-                    <p class="card-text">Hora: {{ clase.hora }}</p>
-                    <p class="card-text">Modalidad: {{clase.modalidad}}</p>
+                    <div class="d-flex">
+                        <img class="img-size-clases" style="width: 50px; height: 50px;"src="../../static/images/user.svg" alt="">
+                        <p class="card-text ml-2 mb-2">Profesor: {{clase.idProfesor.first_name}}<br> Ubicación: {{clase.idProfesor.comuna}}</p>
+                    </div>
+                    <a type="button" href="" class="btn btn-primary btn-small">Ver perfil</a><hr>
+                    <p class="card-text">Carrera: {{clase.idAsignatura.idCarrera.nombreCarrera}}<br>Asignatura: {{clase.idAsignatura.nombreAsignatura}} <br>
+                        Modalidad: {{clase.modalidad}}<br>Fecha: {{ clase.fecha }}<br>Hora: {{ clase.hora }}<br>Tarifa: {{ clase.id }} CLP</p>
+                    {% if user.tipoDeUsuario == "Estudiante" %}
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"data-bs-target="#staticBackdrop">Solicitar clase</button>
+                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Solicitud de agendamiento</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Se le enviará una solicitud al tutor para agendar esta clase. <br>
+                                    Detalles de la clase: <br>
+                                    Carrera: {{clase.idAsignatura.idCarrera.nombreCarrera}} <br>
+                                    Asignatura: {{clase.idAsignatura.nombreAsignatura}} <br>
+                                    Modalidad: {{clase.modalidad}} <br>
+                                    Fecha: {{ clase.fecha }} <br>
+                                    Hora: {{ clase.hora }} <br>
+                                    Tarifa: {{ clase.id }} CLP
+                                </div>
+                                <div class="modal-footer d-flex flex-column align-items-center">
+                                    <span>¿Desea enviar la solicitud?</span>
+                                    <div class="d-flex">
+                                        <button type="button" class="btn btn-secondary me-1" data-bs-dismiss="modal">Cancelar</button>
+                                        <a type="button" href="#" class="btn btn-primary btn-small ml-2">Enviar solicitud</a>
+                                    </div>
+                                </div>                                                               
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
-            </div>
+            </div>       
             {% endfor %}
         </div>
     </div>
+
     {% else %}
 </div>
 <div class="alert alert-primary" role="alert">

@@ -59,3 +59,5 @@ class FormClaseAgendada(forms.ModelForm):
         
     def label_from_instance(self, obj):
         return obj.rut
+    
+

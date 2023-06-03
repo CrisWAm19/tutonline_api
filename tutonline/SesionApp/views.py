@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate,login,logout,get_user_model
 from .forms import CustomUserCreationForm
 from UsuarioApp.views import Perfil
+import json
 # User = get_user_model()
 
 # Create your views here.
@@ -13,8 +14,9 @@ def exit(request):
     return redirect('home')
 
 def register(request):
+
     data = {
-        'form' : CustomUserCreationForm()
+        'form' : CustomUserCreationForm(),
     }
     if request.method == 'POST':
         user_creation_form = CustomUserCreationForm(data=request.POST)
