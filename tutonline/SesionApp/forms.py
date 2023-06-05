@@ -1,23 +1,11 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from api.models import User
-import json
-# comunas_data = {
-#     "regiones": [
-#         {
-#             "region": "Arica y Parinacota",
-#             "comunas": ["Arica", "Camarones", "Putre", "General Lagos"]
-#         },
-#         {
-#             "region": "Tarapacá",
-#             "comunas": ["Iquique", "Alto Hospicio", "Pozo Almonte", "Camiña", "Colchane", "Huara", "Pica"]
-#         },
-#     ]
-    
-# }
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserChangeForm
 
 
-# from 
+Usuario = get_user_model()
 class CustomUserCreationForm(UserCreationForm):
     fechaNacimiento = forms.DateField(
         widget=forms.DateInput(attrs={'type':'date'}),
@@ -32,8 +20,6 @@ class CustomUserCreationForm(UserCreationForm):
         label='Confirmar Contraseña',
         widget=forms.PasswordInput,
     )
-    # = forms.ChoiceField(choices=[(region, region) for region in comunas_data.keys()], label='Región')
-    # comuna = forms.ChoiceField(choices=[], label='Comuna')
     class Meta:
         model = User
         fields =['username',
@@ -62,4 +48,23 @@ class CustomUserCreationForm(UserCreationForm):
             'password1':'Contraseña',
             'password2':'Confirmar Contraseña',
         }
-    
+
+class FormActualizarPerfil(UserChangeForm):
+    fechaNacimiento = forms.DateField(
+        widget=forms.DateInput(attrs={'type':'date'}),
+        label="Fecha de Nacimiento"
+    )
+
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'fechaNacimiento', 'numeroTelefono', 'region', 'comuna', 'email']
+        labels = {
+            'username':'Nombre de usuario',
+            'first_name':'Nombre',
+            'last_name':'Apellidos',
+            'fechaNacimiento':'Fecha de nacimiento',
+            'numeroTelefono':'Teléfono',
+            'region':'Región',
+            'comuna':'Comuna',
+            'email':'Correo electrónico',
+        }

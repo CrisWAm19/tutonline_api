@@ -1,36 +1,43 @@
 {% extends "../HomeTemplates/Base.html" %}
-{% load static %}
 {% block content %}
+{% load static %}
 {% if user.tipoDeUsuario == "Tutor" %}
+<!-- Perfil Tutor -->
 <div class="row">
     <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
         <div class="card card-body">
-            <img class="img-size-clases" style="width: 50px; height: 50px;" src="../../static/images/user.svg" alt="">
-            <p class="card-text">
-                Nombre: {{user.first_name}} <br>
-                <!-- <p class="card-text">Edad:</p> -->
-                Ubicación: {{user.comuna}}</p>
-            {% for p in profesion %}
-            <p class="card-text">Titulado en: {{p.institucion}} <br>Profesion: {{p.profesion}} <br>Años de experiencia:
-                {{ anios_pasados }}</p>
-            {% endfor %}
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Ver
-                descripción</button>
-            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-                aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Descripcion del tutor</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            {% for d in descripcion %}
-                            <p class="card-text">{{ d.descripcionTutor }}</p>
-                            {% endfor %}
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <div class="card card-body">
+                <img class="img-size-clases" style="width: 50px; height: 50px;" src="../../static/images/user.svg"
+                    alt="">
+                <p class="card-text">
+                    Nombre: {{user.first_name}} <br>
+                    <!-- <p class="card-text">Edad:</p> -->
+                    Ubicación: {{user.comuna}}</p>
+                {% for p in profesion %}
+                <p class="card-text">Titulado en: {{p.institucion}} <br>Profesion: {{p.profesion}} <br>Años de
+                    experiencia:
+                    {{ anios_pasados }}</p>
+                {% endfor %}
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop">Ver
+                    descripción</button>
+                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Descripcion del tutor</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                {% for d in descripcion %}
+                                <p class="card-text">{{ d.descripcionTutor }}</p>
+                                {% endfor %}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -41,7 +48,6 @@
 <div class="btn-group mt-3" role="group" aria-label="Basic example">
     <a href="../../Clases/agregarClase/" class="btn btn-primary">Publicar clase</a>
     <a href="../../Clases/ClasesAgendadas/" class="btn btn-primary">Clases agendadas</a>
-    <!-- <a href="../../Clases/agendarClase/" class="btn btn-primary">Clases agendadas</a> -->
     <a href="#" class="btn btn-primary">Comentarios</a>
     <a href="#" class="btn btn-primary">Solicitudes {}</a>
 </div>
@@ -54,8 +60,8 @@
             <div class="card card-body">
                 <p class="card-text">Carrera: {{clase.idAsignatura.idCarrera.nombreCarrera}}<br>Asignatura:
                     {{clase.idAsignatura.nombreAsignatura}}<br>
-                    Modalidad: {{clase.modalidad}}<br>Fecha: {{ clase.fecha }}<br>Hora: {{ clase.hora }}<br>Tarifa: {{
-                    clase.id }} CLP</p>
+                    Modalidad: {{clase.modalidad}}<br>Fecha: {{ clase.fecha }}<br>Hora: {{ clase.hora }}<br>Tarifa:
+                    {{ clase.tarifa }} CLP</p>
                 {% if user.tipoDeUsuario == "Estudiante" %}
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                     data-bs-target="#staticBackdropSolicitud">Solicitar clase</button>
@@ -97,55 +103,65 @@
     </div>
 </div>
 {% else %}
-</div>
 <div class="alert alert-primary" role="alert">
     <strong>No se encuentran boletas de compras en el sistema</strong>
 </div>
 {% endif %}
-
+<!-- Perfil Estudiante -->
 {% else %}
 <div class="row">
     <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
         <div class="card card-body">
-            <img class="img-size-clases" style="width: 50px; height: 50px;" src="../../static/images/user.svg" alt="">
-            <p class="card-text">
-                Nombre: {{user.first_name}} {{ user.last_name }} <br>
-                Edad: {} <br>
-                Ubicación: {{user.comuna}}</p>
-            {% for p in profesion %}
-            <p class="card-text">Titulado en: {{p.institucion}} <br>Profesion: {{p.profesion}} <br>Años de experiencia:
-                {{ anios_pasados }}</p>
-            {% endfor %}
+            <div class="card card-body">
+                <div class="card-content">
+                    <img class="img-size-clases" style="width: 50px; height: 50px;" src="../../static/images/user.svg"
+                        alt="">
+                    <div class="info">
+                        <p class="card-text">
+                            Nombre: {{user.first_name}} {{ user.last_name }} <br>
+                            Edad: {} <br>
+                            Ubicación: {{user.comuna}}
+                        </p>
+                        {% for p in profesion %}
+                        <p class="card-text">Titulado en: {{p.institucion}} <br>Profesion: {{p.profesion}} <br>Años de
+                            experiencia: {{ anios_pasados }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <div class="dots" onclick="toggleDropdown()"></div>
+                    <div class="dropdown-content" id="dropdownContent">
+                        <a href="../../IniciarSesion/editarPerfil" target="_blank" rel="noopener noreferrer">Editar Perfil</a>
+                        <a href="{% url 'change_password' %}" target="_blank" rel="noopener noreferrer">Cambiar contraseña</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-{% endif %}
 <div class="btn-group-container">
     <div class="btn-group mt-3" role="group" aria-label="Basic example">
-        <a href="../../../Perfil/Perfil/" class="btn btn-primary">Publicaciones</a>
+        <a href="../../../Perfil/Perfil/" class="btn btn-primary">Mis publicaciones</a>
         <a href="../../Clases/ClasesAgendadas/" class="btn btn-primary">Mis solicitudes</a>
     </div>
     <div class="btn-group mt-3" role="group" aria-label="Basic example">
-        <a href="../../../Perfil/Publicacion/" class="btn btn-primary">Publicar</a>
-        <a href="../../Clases/ClasesAgendadas/" class="btn btn-primary">Mis solicitudes</a>
+        <a href="../../../Publicacion/AgregarPublicacion/" class="btn btn-primary">Publicar</a>
     </div>
 </div>
-
 <!--  -->
 {% if publicaciones %}
 <div class="container">
     <div class="row">
         {% for publicacion in publicaciones %}
         <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
-            <div class="card card-body">
-                <p class="card-text text-center">{{publicacion.titulo}}</p>
+            <div class="card card-body d-flex flex-column">
+                <b class="card-text text-center">{{publicacion.titulo}}</b>
                 <p class="card-text">Asignatura: {{publicacion.idAsignatura.nombreAsignatura}}<br>
                     Región: {{user.region}}<br>Comuna: {{ user.comuna }}</p>
-                <div class="border rounded-0 mb-2">
-                    <p class="card-text ms-2">{{publicacion.descripcionPublicacion}}</p>
+                <div class="mb-2 d-flex flex-grow-1">
+                    <textarea class="form-control ms-2" style="min-height: 100%;"
+                        readonly>{{publicacion.descripcionPublicacion}}</textarea>
                 </div>
-                {% if user.tipoDeUsuario == "Estudiante" %}
-                {% endif %}
             </div>
         </div>
         {% endfor %}
@@ -156,5 +172,6 @@
 <div class="alert alert-primary" role="alert">
     <strong>No se encuentran boletas de compras en el sistema</strong>
 </div>
+{% endif %}
 {% endif %}
 {% endblock content %}

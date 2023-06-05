@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,6 +25,8 @@ urlpatterns = [
     path('Clases/',include('ClasesApp.urls')),
     path('IniciarSesion/',include('SesionApp.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('Perfil/', include('UsuarioApp.urls'))
+    path('Perfil/', include('UsuarioApp.urls')),
+    path('Publicacion/', include('PublicacionesApp.urls')),
+    path('change-password/', auth_views.PasswordChangeView.as_view(success_url='../Perfil/Perfil'), name='change_password'),
     
 ]

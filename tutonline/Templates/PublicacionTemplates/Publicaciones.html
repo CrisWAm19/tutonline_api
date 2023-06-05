@@ -1,0 +1,47 @@
+{% extends "../HomeTemplates/Base.html" %}
+{% load static %}
+{% block content %}
+<div class="row "> <!-- align-items-start -->
+    <div class="col-lg-4" ">
+        <h1>Buscador:</h1>
+        <input type=" search" class="mb-2">
+    </div>
+    {% if publicaciones %}
+    <div class="container">
+        <div class="row">
+            {% for publicacion in publicaciones %}
+            <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
+                <div class="card card-body h-100">
+                    <div class="d-flex flex-column h-100">
+                        <div class="d-flex">
+                            <img class="img-size-clases" style="width: 50px; height: 50px;" src="../../static/images/user.svg" alt="">
+                            <p class="card-text ml-2 mb-2">Estudiante: {{publicacion.idEstudiante.first_name}}
+                                {{publicacion.idEstudiante.last_name}}</p>
+                        </div>
+                        <a type="button" href="" class="btn btn-primary btn-small">Ver perfil</a>
+                        <hr>
+                        <b class="card-text text-center">{{publicacion.titulo}}</b>
+                        <p class="card-text text-center"> ({{publicacion.idAsignatura.nombreAsignatura}})</p>
+                        <p class="card-text">Región: {{user.region}}<br>Comuna: {{ user.comuna }}</p>
+                        <div class="mb-2 d-flex flex-grow-1">
+                            <textarea class="form-control ms-2" style="min-height: 100%;" readonly>{{publicacion.descripcionPublicacion}}</textarea>
+                        </div>
+                        {% if user.tipoDeUsuario == "Tutor" %}
+                        <a href="#" class="btn btn-primary">Enviar Correo</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            {% endfor %}
+        </div>
+    </div>
+
+    {% else %}
+</div>
+<div class="alert alert-primary" role="alert">
+    <strong>No se encuentran boletas de compras en el sistema</strong>
+</div>
+{% endif %}
+
+{% endblock %}

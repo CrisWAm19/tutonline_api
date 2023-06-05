@@ -37,7 +37,7 @@ class Profesion(models.Model):
         verbose_name_plural = "Profesiones"
         db_table = "Profesion"
     def __str__(self):
-        return f"Codigo verificador: {self.codigoVerificador} | Institucion: {self.institucion} | Profesion: {self.profesion} | Anio de egreso: {self.anioEgreso} | ¿Titulo Validado?: {self.tituloValidado} | {self.idProfesor}"
+        return f"Institucion: {self.institucion} | Profesion: {self.profesion} | Anio de egreso: {self.anioEgreso} | ¿Titulo Validado?: {self.tituloValidado} | {self.idProfesor}"
 
 class Descripcion(models.Model):
     descripcionTutor = models.CharField(null=False, max_length=100,verbose_name="Descripicion del tutor")
@@ -47,7 +47,7 @@ class Descripcion(models.Model):
         verbose_name_plural = "Descripciones"
         db_table = "Descripcion"
     def __str__(self):
-        return f"ID: {self.id} | Descripcion del tutor: {self.descripcionTutor} | {self.idProfesor}"
+        return f"Descripcion del tutor: {self.descripcionTutor} | {self.idProfesor}"
     
 class Carrera(models.Model):
     nombreCarrera = models.CharField(unique=True, null=False,max_length=40,verbose_name="Nombre de la carrera")
@@ -57,7 +57,8 @@ class Carrera(models.Model):
         db_table = "Carrera"
 
     def __str__(self):
-        return f"ID: {self.id} | Carrera: {self.nombreCarrera}"
+        return f"Carrera: {self.nombreCarrera}"
+    
 class Asignatura(models.Model):
     nombreAsignatura = models.CharField(unique=True, null=False,max_length=30,verbose_name="Nombre de la asignatura")
     descripcionAsignatura = models.CharField(null=False,max_length=500,verbose_name="Descripcion de la asignatura")
@@ -67,7 +68,7 @@ class Asignatura(models.Model):
         verbose_name_plural = "Asignaturas"
         db_table = "Asignatura"
     def __str__(self):
-        return f"ID: {self.id} | Asignatura: {self.nombreAsignatura} | Carrera: {self.idCarrera}"
+        return f"Asignatura: {self.nombreAsignatura} | {self.idCarrera}"
 
 class Clase(models.Model):
     fecha = models.DateField(verbose_name="Fecha de la clase")
@@ -86,11 +87,12 @@ class Clase(models.Model):
 
 class Publicacion(models.Model):
     titulo = models.CharField(null=False,max_length=30,verbose_name="Titulo de la publicacion")
-    descripcionPublicacion = models.CharField(null=False,max_length=100,verbose_name="Descripcion de la publicacion")
+    # descripcionPublicacion = models.CharField(null=False,max_length=100,verbose_name="Descripcion de la publicacion")
+    descripcionPublicacion = models.TextField(null=False, verbose_name="Descripcion de la publicacion")
     fecha = models.DateField(auto_now_add=True, verbose_name="Fecha de la publicacion")
     hora = models.TimeField(auto_now_add=True, verbose_name="Hora de la publicacion")
     idEstudiante = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
-    idAsignatura = models.ForeignKey(Asignatura, on_delete=models.CASCADE,null=False)
+    idAsignatura = models.ForeignKey(Asignatura, on_delete=models.CASCADE,null=True, blank=True)
     
     class Meta:
         verbose_name = "Publicacion"
@@ -98,7 +100,7 @@ class Publicacion(models.Model):
         db_table = "Publicacion"
 
     def __str__(self):
-        return f"ID: {self.id} | Fecha: {self.fecha} | Hora: {self.hora} | {self.idEstudiante} | ID asignatura: {self.idAsignatura}"
+        return f"Fecha: {self.fecha} | Hora: {self.hora} | {self.idEstudiante} | ID asignatura: {self.idAsignatura}"
     
 class Comentario(models.Model):
     comentario = models.CharField(null=False,max_length=50,verbose_name="Comentario")
@@ -113,7 +115,7 @@ class Comentario(models.Model):
         db_table = "Comentario"
 
     def __str__(self):
-        return f"ID: {self.id} | Valoracion: {self.valoracion} | Fecha: {self.fecha} | {self.idEstudianteEmisor} | {self.idProfesorReceptor}"
+        return f"Valoracion: {self.valoracion} | Fecha: {self.fecha} | {self.idEstudianteEmisor} | {self.idProfesorReceptor}"
     
 class ClaseAgendada(models.Model):
     idEstudiante = models.ForeignKey(User, related_name='estudiante_agendado', on_delete=models.CASCADE, null=False)
@@ -126,7 +128,7 @@ class ClaseAgendada(models.Model):
         db_table = "ClaseAgendada"
 
     def __str__(self):
-        return f"ID: {self.id} | {self.idProfesor} | {self.idEstudiante}"
+        return f"{self.idProfesor} | {self.idEstudiante}"
     
 class Notificacion(models.Model):
     descripcion = models.CharField(null=False,max_length=100,verbose_name="Descripcion")
@@ -138,7 +140,7 @@ class Notificacion(models.Model):
         db_table = "Notificacion"
 
     def __str__(self):
-        return f"ID: {self.id} | Descripcion: {self.descripcion} | {self.idEstudiante}"
+        return f"Descripcion: {self.descripcion} | {self.idEstudiante}"
 
 class Solicitud(models.Model):
     ESTADO_CHOICES= (
@@ -157,4 +159,4 @@ class Solicitud(models.Model):
         verbose_name_plural = "Solicitudes"
         db_table = "Solicitud"
     def __str__(self):
-        return f"ID: {self.id} | {self.idProfesor} | {self.idEstudiante} | {self.idClase}"
+        return f"{self.idProfesor} | {self.idEstudiante} | {self.idClase}"

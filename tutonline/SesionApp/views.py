@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate,login,logout,get_user_model
-from .forms import CustomUserCreationForm
+from .forms import *
 from UsuarioApp.views import Perfil
 import json
 # User = get_user_model()
@@ -14,7 +14,6 @@ def exit(request):
     return redirect('home')
 
 def register(request):
-
     data = {
         'form' : CustomUserCreationForm(),
     }
@@ -27,3 +26,17 @@ def register(request):
             login(request,user)
             return redirect(Perfil)
     return render(request, 'registration/register.html',data)
+
+def EditarPerfil(request):
+    user = request.user
+    if request.method == 'POST':
+        form = FormActualizarPerfil(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect(Perfil)  # Cambia 'perfil' por la URL a la que deseas redirigir después de guardar los cambios
+    else:
+        form = FormActualizarPerfil(instance=user)
+    context = {
+        'form': form
+    }
+    return render(request, 'registration/update.html', context)

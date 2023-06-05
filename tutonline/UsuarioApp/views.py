@@ -1,8 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from api.models import *
 from datetime import date
 from .forms import *
-from django.contrib import messages
 # Create your views here.
 
 def calcular_anios_pasados(anio):
@@ -44,19 +43,3 @@ def Perfil(request):
         **ObtenerPublicaciones(request)
     }
     return render(request,'Perfiles/PerfilTutor.html',context)    
-
-
-# ESTUDIANTE
-def PublicacionEstudiante(request):
-    data = {'form': FormPublicacion(initial={'idEstudiante': request.user.id})}
-    if request.method == 'POST':
-        form = FormPublicacion(data=request.POST)
-        if form.is_valid():
-            publicacion = form.save(commit=False)
-            publicacion.idEstudiante_id = request.user.id
-            form.save()
-            messages.success(request, "Publicacion registrada")
-            return redirect(Perfil)
-        else: 
-            data["form"] = form
-    return render (request, 'PublicacionTemplates/Publicacion.html',data)

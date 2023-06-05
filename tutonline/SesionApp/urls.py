@@ -3,5 +3,6 @@ from SesionApp import views
 
 urlpatterns = [
     path('logout/',views.exit, name='exit'),
-    path('register/',views.register, name='register')
+    path('register/',views.register, name='register'),
+    path('editarPerfil/',views.EditarPerfil, name='Editar Perfil'),
 ]
