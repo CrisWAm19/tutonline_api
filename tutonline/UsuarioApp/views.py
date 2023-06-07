@@ -42,4 +42,51 @@ def Perfil(request):
         **ObtenerClases(request),
         **ObtenerPublicaciones(request)
     }
-    return render(request,'Perfiles/PerfilTutor.html',context)    
+    return render(request,'Perfiles/Perfil.html',context)    
+
+def PerfilTutor(request, username=None):
+    def IdentificarUser(request, username=None): 
+        current_user = request.user
+        if username and username != current_user.username:
+            user = User.objects.get(username=username)
+            profesion = user.profesion.all()
+            print(profesion)
+            descripcion = user.descripcion.all()
+            print (descripcion)
+            clase = user.clase.all()
+            dataUser = {'user':user, 'profesion':profesion, 'descripcion':descripcion, 'clase':clase}
+            return dataUser
+        else:
+            user = current_user
+            profesion = user.profesion.all()
+            print(profesion)
+            descripcion = user.descripcion.all()
+            print (descripcion)
+            clase = user.clase.all()
+            dataUser = {'user':user, 'profesion':profesion, 'descripcion':descripcion, 'clase':clase}
+            return dataUser
+            
+    context = {
+        **IdentificarUser(request, username=username),        
+    }
+    return render(request, 'Perfiles/PerfilTutor.html', context)
+
+def PerfilEstudiante(request, username=None):
+    def IdentificarUser(request, username=None): 
+        current_user = request.user
+        if username and username != current_user.username:
+            user = User.objects.get(username=username)
+            publicacion = user.publicacion.all()
+            print(publicacion)
+            dataUser = {'user':user, 'publicacion':publicacion}
+            return dataUser
+        else:
+            user = current_user
+            publicacion = user.publicacion.all()
+            print(publicacion)
+            dataUser = {'user':user, 'publicacion':publicacion}
+            return dataUser
+    context = {
+        **IdentificarUser(request, username=username),        
+    }
+    return render(request, 'Perfiles/PerfilEstudiante.html', context)

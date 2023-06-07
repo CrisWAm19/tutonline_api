@@ -16,9 +16,9 @@
                         <img class="img-size-clases" style="width: 50px; height: 50px;"src="../../static/images/user.svg" alt="">
                         <p class="card-text ml-2 mb-2">Profesor: {{clase.idProfesor.first_name}}<br> Ubicación: {{clase.idProfesor.comuna}}</p>
                     </div>
-                    <a type="button" href="" class="btn btn-primary btn-small">Ver perfil</a><hr>
+                    <a type="button" href="../../../Perfil/PerfilTutor/{{ clase.idProfesor.username }}" class="btn btn-primary btn-small">Ver perfil</a><hr>
                     <p class="card-text">Carrera: {{clase.idAsignatura.idCarrera.nombreCarrera}}<br>Asignatura: {{clase.idAsignatura.nombreAsignatura}} <br>
-                        Modalidad: {{clase.modalidad}}<br>Fecha: {{ clase.fecha }}<br>Hora: {{ clase.hora }}<br>Tarifa: {{ clase.id }} CLP</p>
+                        Modalidad: {{clase.modalidad}}<br>Fecha: {{ clase.fecha }}<br>Hora: {{ clase.hora }}<br>Tarifa: {{ clase.tarifa }} CLP</p>
                     {% if user.tipoDeUsuario == "Estudiante" %}
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"data-bs-target="#staticBackdrop">Solicitar clase</button>
                     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

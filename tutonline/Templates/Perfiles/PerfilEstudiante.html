@@ -1,0 +1,52 @@
+{% extends "../HomeTemplates/Base.html" %}
+{% block content %}
+{% load static %}
+<div class="row">
+    <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
+        <div class="card card-body">
+            <div class="card card-body">
+                <div class="card-content">
+                    <img class="img-size-clases" style="width: 50px; height: 50px;" src="../../static/images/user.svg"
+                        alt="">
+                    <div class="info">
+                        <p class="card-text">
+                            Nombre: {{user.first_name}} {{ user.last_name }} <br>
+                            Edad: {} <br>
+                            Ubicación: {{user.comuna}}
+                        </p>
+                        {% for p in profesion %}
+                        <p class="card-text">Titulado en: {{p.institucion}} <br>Profesion: {{p.profesion}} <br>Años de
+                            experiencia: {{ anios_pasados }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  -->
+{% if publicacion %}
+<div class="container">
+    <div class="row">
+        {% for publicacion in publicacion %}
+        <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
+            <div class="card card-body d-flex flex-column">
+                <b class="card-text text-center">{{publicacion.titulo}}</b>
+                <p class="card-text">Asignatura: {{publicacion.idAsignatura.nombreAsignatura}}<br>
+                    Región: {{user.region}}<br>Comuna: {{ user.comuna }}</p>
+                <div class="mb-2 d-flex flex-grow-1">
+                    <textarea class="form-control ms-2" style="min-height: 100%;"
+                        readonly>{{publicacion.descripcionPublicacion}}</textarea>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% else %}
+</div>
+<div class="alert alert-primary" role="alert">
+    <strong>No se encuentran boletas de compras en el sistema</strong>
+</div>
+{% endif %}
+{% endblock content %}

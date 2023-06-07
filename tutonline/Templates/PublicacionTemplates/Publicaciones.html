@@ -18,10 +18,12 @@
                             <p class="card-text ml-2 mb-2">Estudiante: {{publicacion.idEstudiante.first_name}}
                                 {{publicacion.idEstudiante.last_name}}</p>
                         </div>
-                        <a type="button" href="" class="btn btn-primary btn-small">Ver perfil</a>
+                        <a type="button" href="../../../Perfil/PerfilEstudiante/{{ publicacion.idEstudiante.username }}" class="btn btn-primary btn-small">Ver perfil</a>
                         <hr>
                         <b class="card-text text-center">{{publicacion.titulo}}</b>
+                        {% if publicacion.idAsignatura.nombreAsignatura %}
                         <p class="card-text text-center"> ({{publicacion.idAsignatura.nombreAsignatura}})</p>
+                        {% endif %}
                         <p class="card-text">Región: {{user.region}}<br>Comuna: {{ user.comuna }}</p>
                         <div class="mb-2 d-flex flex-grow-1">
                             <textarea class="form-control ms-2" style="min-height: 100%;" readonly>{{publicacion.descripcionPublicacion}}</textarea>
@@ -32,7 +34,6 @@
                     </div>
                 </div>
             </div>
-            
             {% endfor %}
         </div>
     </div>

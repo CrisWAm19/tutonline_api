@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from api.models import *
 from .forms import *
 from django.contrib import messages
@@ -25,3 +25,23 @@ def PublicacionEstudiante(request):
         else: 
             data["form"] = form
     return render (request, 'PublicacionTemplates/AgregarPublicacion.html',data)
+
+def EditarPublicacion(request,id):
+    publicacion = get_object_or_404(Publicacion, id=id)
+    form  = FormPublicacion(instance=publicacion)
+    if request.method == 'POST':
+        form = FormPublicacion(request.POST, instance=publicacion) #instance rellena el formulario
+        if form.is_valid():
+            form.save()
+            return redirect(Perfil)
+        else:
+            context = {'form': form }
+    context = {
+        'form': form
+    }
+    return render(request, 'PublicacionTemplates/EditarPublicacion.html', context)
+
+def EliminarPublicacion(request,id):
+    publicacion = Publicacion.objects.get(id=id)
+    publicacion.delete()
+    return redirect(Perfil)

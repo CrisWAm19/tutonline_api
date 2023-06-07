@@ -23,7 +23,6 @@ class FormClase(forms.ModelForm):
 
     class Meta:
         model = Clase
-        # fields = '__all__'
         fields = [
             'fecha',
             'hora',

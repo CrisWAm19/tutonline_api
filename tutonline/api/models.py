@@ -31,7 +31,7 @@ class Profesion(models.Model):
     profesion = models.CharField(null=False, max_length=30,verbose_name="Profesion")
     anioEgreso = models.DateField(verbose_name="Anio de egreso")
     tituloValidado = models.CharField(null=True, max_length=10,verbose_name="Titulo validado",choices=VALIDACION_CHOICES,default='En proceso')
-    idProfesor = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    idProfesor = models.ForeignKey(User, related_name='profesion', on_delete=models.CASCADE, null=False)
     class Meta:
         verbose_name = "Profesion"
         verbose_name_plural = "Profesiones"
@@ -41,7 +41,7 @@ class Profesion(models.Model):
 
 class Descripcion(models.Model):
     descripcionTutor = models.CharField(null=False, max_length=100,verbose_name="Descripicion del tutor")
-    idProfesor = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    idProfesor = models.ForeignKey(User, related_name='descripcion' , on_delete=models.CASCADE, null=False)
     class Meta:
         verbose_name = "Descripcion"
         verbose_name_plural = "Descripciones"
@@ -60,8 +60,8 @@ class Carrera(models.Model):
         return f"Carrera: {self.nombreCarrera}"
     
 class Asignatura(models.Model):
-    nombreAsignatura = models.CharField(unique=True, null=False,max_length=30,verbose_name="Nombre de la asignatura")
-    descripcionAsignatura = models.CharField(null=False,max_length=500,verbose_name="Descripcion de la asignatura")
+    nombreAsignatura = models.CharField(unique=True, null=False,max_length=50,verbose_name="Nombre de la asignatura")
+    descripcionAsignatura = models.TextField(null=False,verbose_name="Descripcion de la asignatura")
     idCarrera = models.ForeignKey(Carrera, on_delete=models.CASCADE, null=False)
     class Meta:
         verbose_name = "Asignatura"
@@ -75,7 +75,7 @@ class Clase(models.Model):
     hora = models.TimeField(verbose_name="Hora de la clase")
     modalidad = models.CharField(null=False,max_length=10,verbose_name="Modadlidad de la clase")
     tarifa = models.DecimalField(null=False,max_digits=10,decimal_places=2, default=0)
-    idProfesor = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    idProfesor = models.ForeignKey(User, related_name="clase", on_delete=models.CASCADE, null=False)
     idAsignatura = models.ForeignKey(Asignatura, on_delete=models.CASCADE,null=False)
 
     class Meta:
@@ -87,11 +87,10 @@ class Clase(models.Model):
 
 class Publicacion(models.Model):
     titulo = models.CharField(null=False,max_length=30,verbose_name="Titulo de la publicacion")
-    # descripcionPublicacion = models.CharField(null=False,max_length=100,verbose_name="Descripcion de la publicacion")
     descripcionPublicacion = models.TextField(null=False, verbose_name="Descripcion de la publicacion")
     fecha = models.DateField(auto_now_add=True, verbose_name="Fecha de la publicacion")
     hora = models.TimeField(auto_now_add=True, verbose_name="Hora de la publicacion")
-    idEstudiante = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    idEstudiante = models.ForeignKey(User, related_name="publicacion", on_delete=models.CASCADE, null=False)
     idAsignatura = models.ForeignKey(Asignatura, on_delete=models.CASCADE,null=True, blank=True)
     
     class Meta:

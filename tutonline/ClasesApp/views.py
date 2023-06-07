@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from api.models import *
 from django.contrib.auth.decorators import login_required
 from .forms import *
 from django.contrib import messages
-from django.http import JsonResponse
+from UsuarioApp.views import Perfil
+
 # Create your views here.
 
 # @login_required
@@ -21,7 +22,7 @@ def AgregarClase(request):
             clase.idProfesor_id = request.user.id
             form.save()
             messages.success(request, "Clase Registrada")
-            return redirect(ListClases)
+            return redirect(Perfil)
         else: 
             data["form"] = form
     return render (request, 'ClasesTemplates/AgregarClase.html',data)
@@ -41,8 +42,27 @@ def AgendarClase(request):
             clase.idProfesor_id = request.user.id
             form.save()
             messages.success(request, "Clase agendada registrada")
-            return redirect(ListClases)
+            return redirect(Perfil)
         else: 
             data["form"] = form
     return render (request, 'ClasesTemplates/AgendarClase.html',data)
 
+def EditarClase(request,id):
+    clase = get_object_or_404(Clase, id=id)
+    form  = FormClase(instance=clase)
+    if request.method == 'POST':
+        form = FormClase(request.POST, instance=clase)
+        if form.is_valid():
+            form.save()
+            return redirect(Perfil)
+        else:
+            context = {'form': form }
+    context = {
+        'form': form
+    }
+    return render(request, 'registration/update.html', context)
+
+def EliminarClase(request,id):
+    clase = Clase.objects.get(id=id)
+    clase.delete()
+    return redirect(Perfil)

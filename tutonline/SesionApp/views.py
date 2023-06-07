@@ -33,7 +33,7 @@ def EditarPerfil(request):
         form = FormActualizarPerfil(request.POST, instance=user)
         if form.is_valid():
             form.save()
-            return redirect(Perfil)  # Cambia 'perfil' por la URL a la que deseas redirigir después de guardar los cambios
+            return redirect(Perfil)
     else:
         form = FormActualizarPerfil(instance=user)
     context = {
