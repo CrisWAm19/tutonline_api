@@ -83,7 +83,7 @@ class Clase(models.Model):
         verbose_name_plural = "Clases"
         db_table = "Clase"
     def __str__(self):
-        return f"{self.idProfesor} | Fecha: {self.fecha} | Hora: {self.hora} | Modalidad: {self.modalidad} | ID asignatura: {self.idAsignatura}"
+        return f"Asignatura: {self.idAsignatura}  | Modalidad: {self.modalidad} |  Fecha: {self.fecha} | Hora: {self.hora}"
 
 class Publicacion(models.Model):
     titulo = models.CharField(null=False,max_length=30,verbose_name="Titulo de la publicacion")

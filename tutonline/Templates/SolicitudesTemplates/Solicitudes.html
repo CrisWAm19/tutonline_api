@@ -65,39 +65,51 @@
     <a href="../../Perfil/Perfil/" class="btn btn-primary">Mis clases</a>
     <a href="../../Clases/ClasesAgendadas/" class="btn btn-primary">Clases agendadas</a>
     <a href="#" class="btn btn-primary">Comentarios</a>
-    <a href="../../Clases/Solicitudes/" class="btn btn-primary">Solicitudes</a>
+    <a href="#" class="btn btn-primary">Solicitudes</a>
 </div>
-<div class="btn-group mt-3" role="group" aria-label="Basic example">
-    <a href="../../Clases/agregarClase/" class="btn btn-primary">Publicar</a>
-</div>
-
-{% if clases %}
+{% if solicitudes %}
 <div class="container">
     <div class="row">
-        {% for clase in clases %}
+        {% for s in solicitudes %}
+        {% if s.estadoSolicitud != "Rechazada" %}
         <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
             <div class="card card-body h-100">
-                <div style="display: flex; justify-content: flex-end;">
-                    <a href="../../../Clases/EditarClase/{{ clase.id }}" target="_blank" rel="noopener noreferrer"><i class="bi bi-pencil-fill"></i></a>
-                    <a href="../../../Clases/EliminarClase/{{ clase.id }}"
-                        onclick="return confirm('¿Estás seguro de eliminar esta clase?');"> <i style="color: red; margin-left: 10px;"
-                            class="bi bi-x-circle-fill"></i>
+                <b class="card-text">{{ s.estadoSolicitud }}</b>
+                <p>{{ s.fecha }}</p>
+                <p class="card-text">Estudiante: {{s.idEstudiante.first_name}} {{s.idEstudiante.last_name}}</p>
+                <p class="card-text">
+                    <b>Clase solicitada:</b> </b> <br>
+                    fecha y hora: {{s.idClase.fecha}},{{s.idClase.hora}}<br>
+                    Carrera: {{s.idClase.idAsignatura.idCarrera.nombreCarrera}} <br>
+                    Asignatura: {{s.idClase.idAsignatura.nombreAsignatura}}<br>
+                    Modalidad: {{s.idClase.modalidad}}<br>
+                    Tarifa: {{s.idClase.tarifa}}
+                </p>
+                <div style="width: fit-content; margin-left: auto; margin-right: auto;">
+                    {% if s.estadoSolicitud != "Aceptada" %}
+                    <a href="../../../Clases/EditarSolicitudA/{{ s.id }}"
+                        onclick="return confirm('¿Desea aceptar esta solicitud?');">
+                        <i style="color: green; font-size: 30px;" class="bi bi-check-circle-fill"></i>
+                    </a>
+                    {% endif %}
+                    <a href="../../../Clases/EditarSolicitudR/{{ s.id }}"
+                        onclick="return confirm('¿Desea rechazar esta solicitud?');">
+                        <i style="color: red;font-size: 30px; margin-left: 10px" class="bi bi-x-circle-fill"></i>
                     </a>
                 </div>
-                <p class="card-text">Carrera: {{clase.idAsignatura.idCarrera.nombreCarrera}}<br>Asignatura:
-                    {{clase.idAsignatura.nombreAsignatura}}<br>
-                    Modalidad: {{clase.modalidad}}<br>Fecha: {{ clase.fecha }}<br>Hora: {{ clase.hora }}<br>Tarifa:
-                    {{ clase.tarifa }} CLP</p>
+
                 {% if user.tipoDeUsuario == "Estudiante" %}
+
                 {% endif %}
             </div>
         </div>
+        {% endif %}
         {% endfor %}
     </div>
 </div>
 {% else %}
 <div class="alert alert-secondary mt-4" role="alert">
-    <strong>No hay clases publicadas</strong>
+    <strong>No hay solicitudes</strong>
 </div>
 {% endif %}
 <!-- Perfil Estudiante -->
@@ -143,22 +155,25 @@
     </div>
 </div>
 <!--  -->
-{% if publicaciones %}
+{% if solicitudes %}
 <div class="container">
     <div class="row">
-        {% for publicacion in publicaciones %}
+        {% for s in solicitudes %}
         <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
             <div class="card card-body h-100">
-                <b class="card-text text-center">{{publicacion.titulo}}</b>
-                <a href="../../../Publicacion/EditarPublicacion/{{ publicacion.id }}">Editar</a>
-                <a href="../../../Publicacion/EliminarPublicacion/{{ publicacion.id }}"
-                    onclick="return confirm('¿Estás seguro de eliminar esta publicación?');">Eliminar</a>
-                <p class="card-text">Asignatura: {{publicacion.idAsignatura.nombreAsignatura}}<br>
-                    Región: {{user.region}}<br>Comuna: {{ user.comuna }}</p>
-                <div class="mb-2 d-flex flex-grow-1">
-                    <textarea class="form-control ms-2" style="min-height: 100%;"
-                        readonly>{{publicacion.descripcionPublicacion}}</textarea>
-                </div>
+                <b class="card-text">{{ s.estadoSolicitud }}</b>
+                <p>{{ s.fecha }}</p>
+                <a href="../../../Clases/EliminarSolicitud/{{ s.id }}"
+                    onclick="return confirm('¿Estás seguro de cancelar esta solicitud?');">Cancelar solicitud</a>
+                <p class="card-text">Tutor: {{s.idProfesor.first_name}} {{s.idProfesor.last_name}}</p>
+                <p class="card-text">
+                    <b>Clase solicitada:</b> </b> <br>
+                    fecha y hora: {{s.idClase.fecha}},{{s.idClase.hora}}<br>
+                    Carrera: {{s.idClase.idAsignatura.idCarrera.nombreCarrera}} <br>
+                    Asignatura: {{s.idClase.idAsignatura.nombreAsignatura}}<br>
+                    Modalidad: {{s.idClase.modalidad}}<br>
+                    Tarifa: {{s.idClase.tarifa}}
+                </p>
             </div>
         </div>
         {% endfor %}
@@ -167,7 +182,7 @@
 {% else %}
 </div>
 <div class="alert alert-secondary mt-4" role="alert">
-    <strong>No hay publicaciones</strong>
+    <strong>No hay solicitudes</strong>
 </div>
 {% endif %}
 {% endif %}

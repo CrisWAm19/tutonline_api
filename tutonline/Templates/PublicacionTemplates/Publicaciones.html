@@ -3,8 +3,8 @@
 {% block content %}
 <div class="row "> <!-- align-items-start -->
     <div class="col-lg-4" ">
-        <h1>Buscador:</h1>
-        <input type=" search" class="mb-2">
+        <h1>Publicaciones</h1>
+        
     </div>
     {% if publicaciones %}
     <div class="container">
@@ -29,7 +29,7 @@
                             <textarea class="form-control ms-2" style="min-height: 100%;" readonly>{{publicacion.descripcionPublicacion}}</textarea>
                         </div>
                         {% if user.tipoDeUsuario == "Tutor" %}
-                        <a href="#" class="btn btn-primary">Enviar Correo</a>
+                        <a href="../../../Publicacion/Responder/{{ publicacion.idEstudiante.username }}" onclick="openWindowCentered(this.href, 'Enviar Correo', 700, 850); return false;" class="btn btn-primary">Enviar Correo</a>
                         {% endif %}
                     </div>
                 </div>

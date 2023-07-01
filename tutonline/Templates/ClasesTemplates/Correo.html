@@ -1,0 +1,38 @@
+{% extends "../HomeTemplates/Base.html" %}
+{% block content %}
+{% load static %}
+{% load crispy_forms_tags %}
+<div class="contenedorFormulario">
+
+  {% if "valido" in request.GET %}
+
+  <p>Información enviada correctamente</p>
+
+  {% endif %}
+  <p>
+
+  </p>
+  {% if current_user.tipoDeUsuario == "Estudiante" %}
+  <div class="alert alert-success" role="alert">
+    <h4 class="alert-heading">Correo de búsqueda</h4>
+    <p>
+      Puedes enviar un correo explicando tu necesidad. Este correo lo recibirán los tutores, con la finalidad de que ellos te recomienden un tutor.
+      Esto te ayudará a facilitar tu búsqueda.
+    </p>
+  </div>
+  {% elif currentUser.tipoDeUsuario == "Tutor" %}
+  <div class="alert alert-success" role="alert">
+    <h4 class="alert-heading">Ofrecer Clases</h4>
+    <p>
+      Puedes enviar un correo al estudiante ofreciendo tus clases. <br>
+      Solo deja un mensaje en la caja de contenido y él lo recibirá.
+    </p>
+  </div>
+  {% endif %}
+  <form action="" method="POST">
+    {% csrf_token %}
+    <table style="margin: 20px left;">{{miFormulario | crispy}}</table>
+    <input type="submit" value="Enviar correo" style="width: 150px;">
+  </form>
+
+  {% endblock %}

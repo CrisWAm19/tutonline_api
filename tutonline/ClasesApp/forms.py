@@ -60,3 +60,5 @@ class FormClaseAgendada(forms.ModelForm):
         return obj.rut
     
 
+class FormularioContacto(forms.Form):
+    contenido = forms.CharField(label="Contenido", required=True, max_length=400, widget= forms.Textarea)

@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render
 from api.models import *
 from datetime import date
 from .forms import *
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def calcular_anios_pasados(anio):
@@ -9,6 +10,7 @@ def calcular_anios_pasados(anio):
     anios_pasados = anio_actual - anio.year
     return anios_pasados
 
+@login_required
 def Perfil(request):
     def ObtenerProfesion(request):
         user_id = request.user.id
@@ -50,20 +52,16 @@ def PerfilTutor(request, username=None):
         if username and username != current_user.username:
             user = User.objects.get(username=username)
             profesion = user.profesion.all()
-            print(profesion)
             descripcion = user.descripcion.all()
-            print (descripcion)
             clase = user.clase.all()
-            dataUser = {'user':user, 'profesion':profesion, 'descripcion':descripcion, 'clase':clase}
+            dataUser = {'user':user, 'profesion':profesion, 'descripcion':descripcion, 'clase':clase,'current_user':current_user}
             return dataUser
         else:
             user = current_user
             profesion = user.profesion.all()
-            print(profesion)
             descripcion = user.descripcion.all()
-            print (descripcion)
             clase = user.clase.all()
-            dataUser = {'user':user, 'profesion':profesion, 'descripcion':descripcion, 'clase':clase}
+            dataUser = {'user':user, 'profesion':profesion, 'descripcion':descripcion, 'clase':clase, 'current_user':current_user}
             return dataUser
             
     context = {
@@ -77,13 +75,11 @@ def PerfilEstudiante(request, username=None):
         if username and username != current_user.username:
             user = User.objects.get(username=username)
             publicacion = user.publicacion.all()
-            print(publicacion)
-            dataUser = {'user':user, 'publicacion':publicacion}
+            dataUser = {'user':user, 'publicacion':publicacion,'current_user':current_user}
             return dataUser
         else:
             user = current_user
             publicacion = user.publicacion.all()
-            print(publicacion)
             dataUser = {'user':user, 'publicacion':publicacion}
             return dataUser
     context = {

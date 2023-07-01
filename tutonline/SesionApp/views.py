@@ -1,14 +1,11 @@
 from django.shortcuts import render,redirect
-from django.http import HttpResponse
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import authenticate,login,logout,get_user_model
+from django.contrib.auth import authenticate,login,logout
 from .forms import *
 from UsuarioApp.views import Perfil
-import json
-# User = get_user_model()
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
-
 def exit(request):
     logout(request)
     return redirect('home')
@@ -27,6 +24,7 @@ def register(request):
             return redirect(Perfil)
     return render(request, 'registration/register.html',data)
 
+@login_required
 def EditarPerfil(request):
     user = request.user
     if request.method == 'POST':

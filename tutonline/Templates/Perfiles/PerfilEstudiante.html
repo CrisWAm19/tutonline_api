@@ -11,13 +11,8 @@
                     <div class="info">
                         <p class="card-text">
                             Nombre: {{user.first_name}} {{ user.last_name }} <br>
-                            Edad: {} <br>
                             Ubicación: {{user.comuna}}
                         </p>
-                        {% for p in profesion %}
-                        <p class="card-text">Titulado en: {{p.institucion}} <br>Profesion: {{p.profesion}} <br>Años de
-                            experiencia: {{ anios_pasados }}</p>
-                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -38,6 +33,9 @@
                     <textarea class="form-control ms-2" style="min-height: 100%;"
                         readonly>{{publicacion.descripcionPublicacion}}</textarea>
                 </div>
+                {% if current_user.tipoDeUsuario == "Tutor" %}
+                        <a href="../../../Publicacion/Responder/{{ publicacion.idEstudiante.username }}" onclick="openWindowCentered(this.href, 'Enviar Correo', 700, 850); return false;" class="btn btn-primary">Enviar Correo</a>
+                {% endif %}
             </div>
         </div>
         {% endfor %}
@@ -46,7 +44,7 @@
 {% else %}
 </div>
 <div class="alert alert-primary" role="alert">
-    <strong>No se encuentran boletas de compras en el sistema</strong>
+    <strong>No hay publicaciones</strong>
 </div>
 {% endif %}
 {% endblock content %}

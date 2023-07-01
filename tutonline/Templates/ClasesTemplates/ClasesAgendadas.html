@@ -5,13 +5,31 @@
 <div class="row">
     <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
         <div class="card card-body">
+        <div class="card card-body">
             <img class="img-size-clases" style="width: 50px; height: 50px;" src="../../static/images/user.svg" alt="">
             <p class="card-text">
-                Nombre: {{user.first_name}} <br>
+                Nombre: {{user.first_name}} {{user.last_name}} <br>
                 <!-- <p class="card-text">Edad:</p> -->
                 Ubicación: {{user.comuna}}</p>
             {% for p in profesion %}
-            <p class="card-text">Titulado en: {{p.institucion}} <br>Profesion: {{p.profesion}} <br>Años de experiencia: {{ anios_pasados }}</p>
+            <p class="card-text">Titulado en: {{p.institucion}} <br>Profesion: {{p.profesion}}<br>
+                {% if anios_pasados > 0 %}
+                Años de experiencia: {{ anios_pasados }}
+                {% endif %}
+            </p>
+            {% if p.tituloValidado == "Si" %}
+            <p class="card-text"><b>Titulo Verificado</b><img style="width: 25px; margin-left: 5px; margin-bottom: 5px;" src="../../static/images/icons8-verify.svg" alt=""></p>
+            {% endif %}
+
+            <div class="dropdown">
+                <div class="dots" onclick="toggleDropdown()"></div>
+                <div class="dropdown-content" id="dropdownContent">
+                    <a href="../../IniciarSesion/editarPerfil" target="_blank" rel="noopener noreferrer">Editar
+                        Perfil</a>
+                    <a href="{% url 'change_password' %}" target="_blank" rel="noopener noreferrer">Cambiar
+                        contraseña</a>
+                </div>
+            </div>
             {% endfor %}
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Ver descripción</button>
             <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -34,20 +52,24 @@
             </div>
         </div>
     </div>
+    </div>
 </div>
 <div class="btn-group mt-3" role="group" aria-label="Basic example">
-    <a href="../../Clases/agregarClase/" class="btn btn-primary">Publicar clase</a>
+    <a href="../../Perfil/Perfil/" class="btn btn-primary">Mis clases</a>
     <a href="../../Clases/ClasesAgendadas/" class="btn btn-primary">Clases agendadas</a>
     <a href="#" class="btn btn-primary">Comentarios</a>
-    <a href="#" class="btn btn-primary">Solicitudes {}</a>
+    <a href="../../Clases/Solicitudes/" class="btn btn-primary">Solicitudes</a>
 </div>
-<a href="../../Clases/agendarClase/" class="btn btn-primary">Agendar clase</a>
+<div class="btn-group mt-3" role="group" aria-label="Basic example">
+    <a href="../../Clases/agendarClase/" class="btn btn-primary">Agendar clase</a>
+</div>
 {% if clasesAgendadas %}
 <div class="container">
     <div class="row">
         {% for claseAgendada in clasesAgendadas %}
         <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
             <div class="card card-body">
+                <!-- <a href="../../Clases/EditarClasesAgendadas/{{ claseAgendada.id }}" class="btn btn-primary">Clases agendadas</a> -->
                 <p class="card-text">Rut: {{claseAgendada.idEstudiante.rut}}<br>Estudiante: {{claseAgendada.idEstudiante.first_name}} {{claseAgendada.idEstudiante.last_name}}<br>
                     Asignatura: {{claseAgendada.idClase.idAsignatura.nombreAsignatura}}<br>Fecha: {{ claseAgendada.idClase.fecha }}<br>
                     Hora: {{ claseAgendada.idClase.hora }}<br>Modalidad: {{ claseAgendada.idClase.modalidad }}<br>

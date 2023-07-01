@@ -8,13 +8,15 @@
                 <img class="img-size-clases" style="width: 50px; height: 50px;" src="../../static/images/user.svg"
                     alt="">
                 <p class="card-text">
-                    Nombre: {{user.first_name}} <br>
+                    Nombre: {{user.first_name}} {{user.last_name}} <br>
                     <!-- <p class="card-text">Edad:</p> -->
                     Ubicación: {{user.comuna}}</p>
                 {% for p in profesion %}
-                <p class="card-text">Titulado en: {{p.institucion}} <br>Profesion: {{p.profesion}} <br>Años de
-                    experiencia:
-                    {{ anios_pasados }}</p>
+                <p class="card-text">Titulado en: {{p.institucion}} <br>Profesion: {{p.profesion}} <br>
+                    {% if anios_pasados > 0 %}
+                    Años de experiencia: {{ anios_pasados }}
+                    {% endif %}
+                </p>
                 {% endfor %}
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                     data-bs-target="#staticBackdrop">Ver
@@ -41,7 +43,12 @@
                 </div>
             </div>
         </div>
+        
     </div>
+</div>
+<div class="btn-group mt-3" role="group" aria-label="Basic example">
+    <a href="../../../Perfil/PerfilTutor/{{ clase.idProfesor.username }}" class="btn btn-primary">Clases</a>
+    <a href="../../Clases/ClasesAgendadas/" class="btn btn-primary">Comentarios</a>
 </div>
 {% if clase %}
 <div class="container">
@@ -53,40 +60,11 @@
                     {{clase.idAsignatura.nombreAsignatura}}<br>
                     Modalidad: {{clase.modalidad}}<br>Fecha: {{ clase.fecha }}<br>Hora: {{ clase.hora }}<br>Tarifa:
                     {{ clase.tarifa }} CLP</p>
-                {% if user.tipoDeUsuario == "Estudiante" %}
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                    data-bs-target="#staticBackdropSolicitud">Solicitar clase</button>
-                <div class="modal fade" id="staticBackdropSolicitud" data-bs-backdrop="static" data-bs-keyboard="false"
-                    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Solicitud de agendamiento</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                Se le enviará una solicitud al tutor para agendar esta clase. <br>
-                                Detalles de la clase: <br>
-                                Carrera: {{clase.idAsignatura.idCarrera.nombreCarrera}} <br>
-                                Asignatura: {{clase.idAsignatura.nombreAsignatura}} <br>
-                                Modalidad: {{clase.modalidad}} <br>
-                                Fecha: {{ clase.fecha }} <br>
-                                Hora: {{ clase.hora }} <br>
-                                Tarifa: {{ clase.id }} CLP
-                            </div>
-                            <div class="modal-footer d-flex flex-column align-items-center">
-                                <span>¿Desea enviar la solicitud?</span>
-                                <div class="d-flex">
-                                    <button type="button" class="btn btn-secondary me-1"
-                                        data-bs-dismiss="modal">Cancelar</button>
-                                    <a type="button" href="#" class="btn btn-primary btn-small ml-2">Enviar
-                                        solicitud</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {% if current_user.tipoDeUsuario == "Estudiante" %}
+                <a type="button"
+                        href="{% url 'CrearSolicitud' clase.id %}?profesor_username={{ clase.idProfesor.username }}"
+                        onclick="return confirm('Se le enviará una solicitud de esta clase al tutor. ¿Desea continuar?');"
+                        class="btn btn-primary btn-small ml-2">Enviar solicitud</a>
                 {% endif %}
             </div>
         </div>
