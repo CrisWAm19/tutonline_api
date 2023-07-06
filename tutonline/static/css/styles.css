@@ -47,3 +47,7 @@
 .dropdown-content a:hover {
   background-color: #ddd;
 }
+a {
+        text-decoration: none;
+        padding: 2px;
+    }

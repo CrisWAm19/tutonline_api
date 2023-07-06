@@ -60,20 +60,19 @@
     <a href="../../Comentarios/ComentariosPerfilLogeado/" class="btn btn-primary">Comentarios</a>
     <a href="../../Clases/Solicitudes/" class="btn btn-primary">Solicitudes</a>
 </div>
-<div class="btn-group mt-3" role="group" aria-label="Basic example">
-    <a href="../../Clases/agendarClase/" class="btn btn-primary">Agendar clase</a>
-</div>
-{% if clasesAgendadas %}
+{% if comentarios %}
 <div class="container">
     <div class="row">
-        {% for claseAgendada in clasesAgendadas %}
+        {% for c in comentarios %}
         <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
             <div class="card card-body">
-                <!-- <a href="../../Clases/EditarClasesAgendadas/{{ claseAgendada.id }}" class="btn btn-primary">Clases agendadas</a> -->
-                <p class="card-text">Rut: {{claseAgendada.idEstudiante.rut}}<br>Estudiante: {{claseAgendada.idEstudiante.first_name}} {{claseAgendada.idEstudiante.last_name}}<br>
-                    Asignatura: {{claseAgendada.idClase.idAsignatura.nombreAsignatura}}<br>Fecha: {{ claseAgendada.idClase.fecha }}<br>
-                    Hora: {{ claseAgendada.idClase.hora }}<br>Modalidad: {{ claseAgendada.idClase.modalidad }}<br>
-                    Tarifa: {{ claseAgendada.idClase.tarifa }} CLP</p> 
+                <p class="card-text"><b>{{ c.idEstudianteEmisor.first_name }} {{ c.idEstudianteEmisor.last_name }}</b><br>
+                    {{ c.fecha }}<br>
+                    {{ c.valoracion }}<br>
+                </p>
+                <div class="mb-2 d-flex flex-grow-1">
+                    <textarea class="form-control ms-2" style="min-height: 100%;" readonly>{{ c.comentario }}</textarea>
+                </div>
             </div>
         </div>
         {% endfor %}

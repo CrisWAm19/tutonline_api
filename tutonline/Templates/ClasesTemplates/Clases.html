@@ -33,6 +33,30 @@
                         {{clase.idAsignatura.nombreAsignatura}} <br>
                         Modalidad: {{clase.modalidad}}<br>Fecha: {{ clase.fecha }}<br>Hora: {{ clase.hora }}<br>Tarifa:
                         {{ clase.tarifa }} CLP</p>
+                        <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#descAsignatura">
+                    Descripcion Asignatura
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="descAsignatura" data-bs-backdrop="static" data-bs-keyboard="false"
+                    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" style="text-align: justify;">
+                                {{clase.idAsignatura.descripcionAsignatura}}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                     {% if user.tipoDeUsuario == "Estudiante" %}
                     <a type="button"
                         href="{% url 'CrearSolicitud' clase.id %}?profesor_username={{ clase.idProfesor.username }}"
@@ -48,7 +72,7 @@
     {% else %}
 </div>
 <div class="alert alert-primary" role="alert">
-    <strong>No se encuentran boletas de compras en el sistema</strong>
+    <strong>No hay clases publicadas</strong>
 </div>
 {% endif %}
 

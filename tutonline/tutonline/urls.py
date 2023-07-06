@@ -27,6 +27,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('Perfil/', include('UsuarioApp.urls')),
     path('Publicacion/', include('PublicacionesApp.urls')),
+    path('Comentarios/', include('ComentariosApp.urls')),
     path('change-password/', auth_views.PasswordChangeView.as_view(success_url='../Perfil/Perfil'), name='change_password'),
     
 ]

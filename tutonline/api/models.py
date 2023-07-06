@@ -26,6 +26,8 @@ class Profesion(models.Model):
         ('Si','Si'),
         ('En proceso','En proceso')
     )
+    # `codigoVerificador` es un campo del modelo `Profesion`. Se utiliza para almacenar un código
+    # único que verifica la profesión de un usuario.
     codigoVerificador = models.CharField(primary_key=True, null=False, max_length=100,verbose_name="Codigo verificador")
     institucion = models.CharField(null=False, max_length=30, verbose_name="Institucion")
     profesion = models.CharField(null=False, max_length=30,verbose_name="Profesion")
@@ -102,7 +104,7 @@ class Publicacion(models.Model):
         return f"Fecha: {self.fecha} | Hora: {self.hora} | {self.idEstudiante} | ID asignatura: {self.idAsignatura}"
     
 class Comentario(models.Model):
-    comentario = models.CharField(null=False,max_length=50,verbose_name="Comentario")
+    comentario = models.TextField(null=False,verbose_name="Comentario")
     valoracion = models.IntegerField (null=False,verbose_name="Valoracion",default=1)
     fecha = models.DateField(auto_now_add=True, verbose_name="Fecha del comentario")
     idEstudianteEmisor = models.ForeignKey(User, related_name='comentarios_enviados', on_delete=models.CASCADE, null=False)

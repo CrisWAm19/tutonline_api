@@ -1,6 +1,7 @@
 {% extends "../HomeTemplates/Base.html" %}
 {% block content %}
 {% load static %}
+{% load crispy_forms_tags %}
 <div class="row">
     <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
         <div class="card card-body">
@@ -47,37 +48,62 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 </div>
 <div class="btn-group mt-3" role="group" aria-label="Basic example">
     <a href="../../../Perfil/PerfilTutor/{{ user.username }}" class="btn btn-primary">Clases</a>
     <a href="../../Comentarios/Comentarios/{{ user.username }}" class="btn btn-primary">Comentarios</a>
 </div>
-{% if clase %}
+<div class="btn-group mt-3" role="group" aria-label="Basic example">
+    {% if not comentario_current_user %}
+    <a href="../../Comentarios/Comentarios/{{ user.username }}" class="btn btn-primary">Dejar un comentario</a>
+    {% endif %}
+</div>
 <div class="container">
     <div class="row">
-        {% for clase in clase %}
+        {% if comentario_current_user %}
+        {% for c in comentario_current_user %}
         <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
             <div class="card card-body">
-                <p class="card-text">Carrera: {{clase.idAsignatura.idCarrera.nombreCarrera}}<br>Asignatura:
-                    {{clase.idAsignatura.nombreAsignatura}}<br>
-                    Modalidad: {{clase.modalidad}}<br>Fecha: {{ clase.fecha }}<br>Hora: {{ clase.hora }}<br>Tarifa:
-                    {{ clase.tarifa }} CLP</p>
-                {% if current_user.tipoDeUsuario == "Estudiante" %}
-                <a type="button"
-                        href="{% url 'CrearSolicitud' clase.id %}?profesor_username={{ clase.idProfesor.username }}"
-                        onclick="return confirm('Se le enviará una solicitud de esta clase al tutor. ¿Desea continuar?');"
-                        class="btn btn-primary btn-small ml-2">Enviar solicitud</a>
-                {% endif %}
+                <p class="card-text"><b>{{ c.idEstudianteEmisor.first_name }} {{ c.idEstudianteEmisor.last_name }}</b><br>
+                    {{ c.fecha }}<br>
+                    {{ c.valoracion }}<br>
+                </p>
+                <div class="mb-2 d-flex flex-grow-1">
+                    <textarea class="form-control ms-2" style="min-height: 100%;" readonly>{{ c.comentario }}</textarea>
+                </div>
             </div>
         </div>
         {% endfor %}
+        {% endif %}
+        {% if not existe_comentario and existe_clase_agendada %}
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form | crispy }}
+            <input type="submit" value="Agregar comentario" class="btn btn-primary">
+        </form>
+        {% endif %}
+        {% if comentarios_otros %}
+        {% for c in comentarios_otros %}
+        <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
+            <div class="card card-body">
+                <p class="card-text"><b>{{ c.idEstudianteEmisor.first_name }} {{ c.idEstudianteEmisor.last_name }}</b><br>
+                    {{ c.fecha }}<br>
+                    {{ c.valoracion }}<br>
+                </p>
+                <div class="mb-2 d-flex flex-grow-1">
+                    <textarea class="form-control ms-2" style="min-height: 100%;" readonly>{{ c.comentario }}</textarea>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
     </div>
 </div>
-{% else %}
+{% if not comentarios_otros and not comentario_current_user %}
 <div class="alert alert-primary" role="alert">
-    <strong>No hay clases publicadas</strong>
+    <strong>No hay comentarios</strong>
 </div>
 {% endif %}
 {% endblock %}
