@@ -1,206 +1,216 @@
 {% extends "../HomeTemplates/Base.html" %}
 {% block content %}
 {% load static %}
+<link rel="stylesheet" href="{% static 'css/card.css' %}">
 {% if user.tipoDeUsuario == "Tutor" %}
 <!-- Perfil Tutor -->
-<div class="row">
-    <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
-        <div class="card card-body">
-            <div class="card card-body">
-                <img class="img-size-clases" style="width: 50px; height: 50px;" src="../../static/images/user.svg"
-                    alt="">
-                <p class="card-text">
-                    Nombre: {{user.first_name}} {{user.last_name}} <br>
-                    Ubicación: {{user.comuna}}</p>
-                <div class="dropdown">
-                    <div class="dots" onclick="toggleDropdown()"></div>
-                    <div class="dropdown-content" id="dropdownContent">
-                        <a href="../../IniciarSesion/editarPerfil" target="_blank" rel="noopener noreferrer">Editar
-                            Perfil</a>
-                        <a href="{% url 'change_password' %}" target="_blank" rel="noopener noreferrer">Cambiar
-                            contraseña</a>
+<div class="d-flex align-items-center justify-content-center h-100">
+    <div class="col-xl-4 col-sm-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="dropdown float-end">
+                    <a class="text-muted dropdown-toggle font-size-16" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-haspopup="true"><i class="bx bx-dots-horizontal-rounded"></i></a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <a class="dropdown-item" href="../../IniciarSesion/editarPerfil" target="_blank"
+                            rel="noopener noreferrer">Editar</a>
+                        <a class="dropdown-item" href="{% url 'change_password' %}" target="_blank"
+                            rel="noopener noreferrer">Cambiar contraseña</a>
                         {% if profesion %}
-                        <a href="../../Perfil/EditarProfesion/" target="_blank" rel="noopener noreferrer">Editar
-                            Profesion</a>
+                        {% for p in profesion %}
+                        {% if p.tituloValidado == "En proceso" %}
+                        <a class="dropdown-item" href="../../Perfil/EditarProfesion/" target="_blank"
+                            rel="noopener noreferrer">Editar Profesion</a>
+                        {% endif %}
+                        {% endfor %}
                         {% endif %}
                     </div>
                 </div>
-                {% if profesion %}
-                {% for p in profesion %}
-                <p class="card-text">Titulado en: {{p.institucion}} <br>Profesion: {{p.profesion}}<br>
-                    {% if anios_pasados > 0 %}
-                    Años de experiencia: {{ anios_pasados }}
-                    {% endif %}
-                </p>
-                {% if p.tituloValidado == "Si" %}
-                <p class="card-text"><b>Titulo Verificado</b><img
-                        style="width: 25px; margin-left: 5px; margin-bottom: 5px;"
-                        src="../../static/images/icons8-verify.svg" alt=""></p>
-                {% endif %}
-                {% endfor %}
-                {% else %}
-                <a href="../../Perfil/ProfesionTutor/" class="btn btn-primary">Registrar Profesión</a>
-                {% endif %}
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                    data-bs-target="#staticBackdrop">Ver
-                    descripción</button>
-                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
-                    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Descripcion del tutor</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                {% for d in descripcion %}
-                                <p class="card-text">{{ d.descripcionTutor }}</p>
-                                {% endfor %}
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            </div>
-                        </div>
+                <div class="d-flex align-items-center">
+                    <div><img src="../../static/images/user.svg" alt class="avatar-md rounded-circle img-thumbnail" />
+                    </div>
+                    <div class="flex-1 ms-3">
+                        <h5 class="font-size-16 mb-1"><a href="#" class="text-dark">{{user.first_name}}
+                                {{user.last_name}}</a>
+                        </h5>
+                        <span class="badge badge-soft-success mb-0">Tutor</span>
+                        {% if profesion %}
+                        {% for p in profesion %}
+                        {% if p.tituloValidado == "Si" %}
+                        <span class="badge badge-soft-success mb-0">Título Verificado <img
+                                style="width: 20px; margin-left: 5px;" src="../../static/images/icons8-verify.svg"
+                                alt=""></span>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="btn-group mt-3" role="group" aria-label="Basic example">
-    <a href="../../Perfil/Perfil/" class="btn btn-primary">Mis clases</a>
-    <a href="../../Clases/ClasesAgendadas/" class="btn btn-primary">Clases agendadas</a>
-    <a href="../../Comentarios/ComentariosPerfilLogeado/" class="btn btn-primary">Comentarios</a>
-    <a href="../../Clases/Solicitudes/" class="btn btn-primary">Solicitudes</a>
-</div>
-<div class="btn-group mt-3" role="group" aria-label="Basic example">
-    <a href="../../Clases/agregarClase/" class="btn btn-primary">Publicar</a>
-</div>
-
-{% if clases %}
-<div class="container">
-    <div class="row">
-        {% for clase in clases %}
-        <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
-            <div class="card card-body h-100">
-                <div style="display: flex; justify-content: flex-end;">
-                    <a href="../../../Clases/EditarClase/{{ clase.id }}" target="_blank" rel="noopener noreferrer"><i
-                            class="bi bi-pencil-fill"></i></a>
-                    <a href="../../../Clases/EliminarClase/{{ clase.id }}"
-                        onclick="return confirm('¿Estás seguro de eliminar esta clase?');"> <i
-                            style="color: red; margin-left: 10px;" class="bi bi-x-circle-fill"></i>
+                <div class="mt-3 pt-1">
+                    <p class="text-muted mb-0"><i class="bi bi-geo-alt"></i>
+                        {{ user.region }}, {{ user.comuna }}</p>
+                    {% if profesion %}
+                    {% for p in profesion %}
+                    <p class="text-muted mb-0">
+                        Titulado: {{p.institucion}} <br>Profesión: {{p.profesion}}<br>
+                        {% if anios_pasados > 0 %}
+                        Años de experiencia: {{ anios_pasados }}
+                        {% endif %}
+                    </p>
+                    {% endfor %}
+                    {% else %}
+                    <a href="../../Perfil/ProfesionTutor/" class="btn btn-outline-primary btn-sm w-100 mt-2">
+                        <i class="bx bx-user me-1"></i>Registrar Profesión
                     </a>
+                    {% endif %}
                 </div>
-                <p class="card-text">Carrera: {{clase.idAsignatura.idCarrera.nombreCarrera}}<br>Asignatura:
-                    {{clase.idAsignatura.nombreAsignatura}}<br>
-                    Modalidad: {{clase.modalidad}}<br>Fecha: {{ clase.fecha }}<br>Hora: {{ clase.hora }}<br>Tarifa:
-                    {{ clase.tarifa }} CLP</p>
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#descAsignatura">
-                    Descripcion Asignatura
-                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="d-flex align-items-center justify-content-center h-100">
+    <div class="btn-group mt-3" role="group" aria-label="Basic example">
+        <a href="../../Perfil/Perfil/" class="btn btn-primary">Mis clases</a>
+        <a href="../../Clases/ClasesAgendadas/" class="btn btn-primary">Clases agendadas</a>
+        <a href="../../Comentarios/ComentariosPerfilLogeado/" class="btn btn-primary">Comentarios</a>
+        <a href="../../Clases/Solicitudes/" class="btn btn-primary">Solicitudes</a>
+    </div>
+    <div class="btn-group mt-3 ms-2" role="group" aria-label="Basic example">
+        <a href="../../Clases/agregarClase/" class="btn btn-primary">Publicar clase</a>
+    </div>
+</div>
 
-                <!-- Modal -->
-                <div class="modal fade" id="descAsignatura" data-bs-backdrop="static" data-bs-keyboard="false"
-                    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-scrollable">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body" style="text-align: justify;">
-                                {{clase.idAsignatura.descripcionAsignatura}}
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+<div class="row mt-4">
+    {% if clases %}
+    {% for clase in clases %}
+    <div class="col-xl-4 col-sm-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="mt-3 pt-1">
+                    <div style="display: flex; justify-content: flex-end;">
+                        <a href="../../../Clases/EditarClase/{{ clase.id }}" target="_blank"
+                            rel="noopener noreferrer"><i class="bi bi-pencil-fill"></i></a>
+                        <a href="../../../Clases/EliminarClase/{{ clase.id }}"
+                            onclick="return confirm('¿Estás seguro de eliminar esta clase?');"> <i
+                                style="color: red; margin-left: 10px;" class="bi bi-x-circle-fill"></i>
+                        </a>
+                    </div>
+                    <p class="text-muted mb-0"><i
+                            class="mdi mdi-phone font-size-15 align-middle  text-primary"></i>Carrera:
+                        {{clase.idAsignatura.idCarrera.nombreCarrera}}<br>Asignatura:
+                        {{clase.idAsignatura.nombreAsignatura}}<br>
+                        Modalidad: {{clase.modalidad}}<br>Fecha: {{ clase.fecha }}<br>Hora: {{ clase.hora }}<br>Tarifa:
+                        {{ clase.tarifa }} CLP</p>
+                </div>
+                <div class="d-flex gap-2 pt-4 ">
+                    <button type="button" class="btn btn-outline-primary btn-sm w-100" data-bs-toggle="modal"
+                        data-bs-target="#descAsignatura{{ clase.id }}"><i class="bx bx-message-square-dots me-1"></i>Descripción
+                        Asignatura</button>
+
+                    <div class="modal fade" id="descAsignatura{{ clase.id }}" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title
+                                    </h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body" style="text-align: justify;">
+                                    {{clase.idAsignatura.descripcionAsignatura}}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cerrar</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        {% endfor %}
     </div>
+    {% endfor %}
+    {% else %}
+    <div class="alert alert-secondary mt-4" role="alert">
+        <strong>No hay clases publicadas</strong>
+    </div>
+    {% endif %}
 </div>
-{% else %}
-<div class="alert alert-secondary mt-4" role="alert">
-    <strong>No hay clases publicadas</strong>
-</div>
-{% endif %}
 <!-- Perfil Estudiante -->
 {% else %}
-<div class="row">
-    <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
-        <div class="card card-body">
-            <div class="card card-body">
-                <div class="card-content">
-                    <img class="img-size-clases" style="width: 50px; height: 50px;" src="../../static/images/user.svg"
-                        alt="">
-                    <div class="info">
-                        <p class="card-text">
-                            Nombre: {{user.first_name}} {{ user.last_name }} <br>
-                            Ubicación: {{user.comuna}}
-                        </p>
-                        {% for p in profesion %}
-                        <p class="card-text">Titulado en: {{p.institucion}} <br>Profesion: {{p.profesion}} <br>Años de
-                            experiencia: {{ anios_pasados }}</p>
-                        {% endfor %}
+<div class="d-flex align-items-center justify-content-center h-100">
+    <div class="col-xl-4 col-sm-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="dropdown float-end">
+                    <a class="text-muted dropdown-toggle font-size-16" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-haspopup="true"><i class="bx bx-dots-horizontal-rounded"></i></a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <a class="dropdown-item" href="../../IniciarSesion/editarPerfil" target="_blank"
+                            rel="noopener noreferrer">Editar</a>
+                        <a class="dropdown-item" href="{% url 'change_password' %}" target="_blank"
+                            rel="noopener noreferrer">Cambiar contraseña</a>
                     </div>
                 </div>
-                <div class="dropdown">
-                    <div class="dots" onclick="toggleDropdown()"></div>
-                    <div class="dropdown-content" id="dropdownContent">
-                        <a href="../../IniciarSesion/editarPerfil" target="_blank" rel="noopener noreferrer">Editar
-                            Perfil</a>
-                        <a href="{% url 'change_password' %}" target="_blank" rel="noopener noreferrer">Cambiar
-                            contraseña</a>
+                <div class="d-flex align-items-center">
+                    <div><img src="../../static/images/user.svg" alt class="avatar-md rounded-circle img-thumbnail" />
                     </div>
+                    <div class="flex-1 ms-3">
+                        <h5 class="font-size-16 mb-1"><a href="#" class="text-dark">{{user.first_name}}
+                                {{user.last_name}}</a>
+                        </h5>
+                        <span class="badge badge-soft-success mb-0">Estudiante</span>
+                    </div>
+                </div>
+                <div class="mt-3 pt-1">
+                    <p class="text-muted mb-0"><i class="bi bi-geo-alt"></i>
+                        {{ user.region }}, {{ user.comuna }}</p>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="btn-group-container">
+<div class="d-flex align-items-center justify-content-center h-100">
     <div class="btn-group mt-3" role="group" aria-label="Basic example">
         <a href="../../../Perfil/Perfil/" class="btn btn-primary">Mis publicaciones</a>
         <a href="../../Clases/Solicitudes/" class="btn btn-primary">Mis solicitudes</a>
     </div>
-    <div class="btn-group mt-3" role="group" aria-label="Basic example">
+    <div class="btn-group mt-3 ms-2" role="group" aria-label="Basic example">
         <a href="../../../Publicacion/AgregarPublicacion/" class="btn btn-primary">Publicar</a>
     </div>
 </div>
 <!--  -->
-{% if publicaciones %}
-<div class="container">
-    <div class="row">
-        {% for publicacion in publicaciones %}
-        <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
-            <div class="card card-body h-100">
-                <b class="card-text text-center">{{publicacion.titulo}}</b>
-                <a href="../../../Publicacion/EditarPublicacion/{{ publicacion.id }}" target="_blank"
-                    rel="noopener noreferrer"><i class="bi bi-pencil-fill"></i></a>
-                <a href="../../../Publicacion/EliminarPublicacion/{{ publicacion.id }}"
+<div class="row mt-4">
+    {% if publicaciones %}
+    {% for publicacion in publicaciones %}
+    <div class="col-xl-4 col-sm-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="mt-3 pt-1">
+                    <div style="display: flex; justify-content: flex-end;">
+                        <a href="../../../Publicacion/EditarPublicacion/{{ publicacion.id }}" target="_blank"
+                        rel="noopener noreferrer"><i class="bi bi-pencil-fill"></i></a>
+                        <a href="../../../Publicacion/EliminarPublicacion/{{ publicacion.id }}"
                     onclick="return confirm('¿Estás seguro de eliminar esta publicación?');"> <i
                         style="color: red; margin-left: 10px;" class="bi bi-x-circle-fill"></i>
                 </a>
-                <p class="card-text">Asignatura: {{publicacion.idAsignatura.nombreAsignatura}}<br>
-                    Región: {{user.region}}<br>Comuna: {{ user.comuna }}</p>
-                <div class="mb-2 d-flex flex-grow-1">
-                    <textarea class="form-control ms-2" style="min-height: 100%;"
+                    </div>
+                    <p class="text-muted mb-0"><i
+                            class="mdi mdi-phone font-size-15 align-middle  text-primary"></i>Asignatura: {{publicacion.idAsignatura.nombreAsignatura}}<br>
+                            Región: {{user.region}}<br>Comuna: {{ user.comuna }}</p>
+                            <textarea class="text-muted mb-0 mt-2 w-100" style="min-height: 100%;"
                         readonly>{{publicacion.descripcionPublicacion}}</textarea>
                 </div>
             </div>
         </div>
-        {% endfor %}
     </div>
+    {% endfor %}
+    {% else %}
+    <div class="alert alert-secondary mt-4" role="alert">
+        <strong>No hay publicaciones</strong>
+    </div>
+    {% endif %}
 </div>
-{% else %}
-<div class="alert alert-secondary mt-4" role="alert">
-    <strong>No hay publicaciones</strong>
-</div>
-{% endif %}
 {% endif %}
 {% endblock content %}

@@ -51,3 +51,14 @@ a {
         text-decoration: none;
         padding: 2px;
     }
+
+/* NAVBAR */
+.navbar-color{
+  background-color: #6096B4;
+}
+
+.links-color a{
+  color: #FFFFFF;
+}
+
+/* card

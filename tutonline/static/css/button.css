@@ -1,0 +1,25 @@
+.bg-c-blue {
+    background: linear-gradient(45deg,#4099ff,#73b4ff);
+}
+
+.btn3d {
+    transition:all .08s linear;
+    position:relative;
+    outline:medium none;
+    -moz-outline-style:none;
+    border:0px;
+    margin-right:10px;
+    margin-top:15px;
+}
+.btn3d:focus {
+    outline:medium none;
+    -moz-outline-style:none;
+}
+.btn3d:active {
+    top:9px;
+}
+
+.btn-warning {
+    box-shadow:0 0 0 1px #f0ad4e inset, 0 0 0 2px rgba(255,255,255,0.15) inset, 0 8px 0 0 #eea236, 0 8px 0 1px rgba(0,0,0,0.4), 0 8px 8px 1px rgba(0,0,0,0.5);
+    background-color:#f0ad4e;
+}

@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate,login,logout
 from .forms import *
 from UsuarioApp.views import Perfil
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 
 # Create your views here.
@@ -16,12 +17,13 @@ def register(request):
     }
     if request.method == 'POST':
         user_creation_form = CustomUserCreationForm(data=request.POST)
-        print(user_creation_form)
         if user_creation_form.is_valid():
             user_creation_form.save()
             user = authenticate(username=user_creation_form.cleaned_data['username'], password=user_creation_form.cleaned_data['password1'])
             login(request,user)
             return redirect(Perfil)
+        else:
+            data['form'] = user_creation_form
     return render(request, 'registration/register.html',data)
 
 @login_required

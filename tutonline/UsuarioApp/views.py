@@ -29,7 +29,6 @@ def Perfil(request):
         'clases': clases,
         'publicaciones': publicaciones
     }
-    
     return render(request, 'Perfiles/Perfil.html', context)
     
 

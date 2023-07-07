@@ -4,7 +4,18 @@ from django.contrib.admin import widgets
 from django.core import validators 
 from django.forms import ValidationError
 
+
+def validate_tarifa(value):
+    if value < 0:
+        raise ValidationError("La tarifa no puede ser un número negativo")
+
+
 class FormClase(forms.ModelForm):
+
+    tarifa = forms.IntegerField(
+        label="Tarifa",
+        validators=[validate_tarifa]
+    )
     fecha = forms.DateField(
         widget=forms.DateInput(attrs={'type':'date'}),
         label="Fecha de la clase"
