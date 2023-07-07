@@ -175,6 +175,7 @@
     <div class="btn-group mt-3" role="group" aria-label="Basic example">
         <a href="../../../Perfil/Perfil/" class="btn btn-primary">Mis publicaciones</a>
         <a href="../../Clases/Solicitudes/" class="btn btn-primary">Mis solicitudes</a>
+        <a href="../../Clases/ClasesAgendadas/" class="btn btn-primary">Clases agendadas</a>
     </div>
     <div class="btn-group mt-3 ms-2" role="group" aria-label="Basic example">
         <a href="../../../Publicacion/AgregarPublicacion/" class="btn btn-primary">Publicar</a>
@@ -196,8 +197,12 @@
                         style="color: red; margin-left: 10px;" class="bi bi-x-circle-fill"></i>
                 </a>
                     </div>
-                    <p class="text-muted mb-0"><i
-                            class="mdi mdi-phone font-size-15 align-middle  text-primary"></i>Asignatura: {{publicacion.idAsignatura.nombreAsignatura}}<br>
+                    <p class="card-text text-center"><b>{{publicacion.titulo}}</b> <br>
+                        {% if publicacion.idAsignatura.nombreAsignatura %}
+                        ({{publicacion.idAsignatura.nombreAsignatura}})
+                        {% endif %}
+                    </p>
+                    <p class="text-muted mb-0">Asignatura: {{publicacion.idAsignatura.nombreAsignatura}}<br>
                             Región: {{user.region}}<br>Comuna: {{ user.comuna }}</p>
                             <textarea class="text-muted mb-0 mt-2 w-100" style="min-height: 100%;"
                         readonly>{{publicacion.descripcionPublicacion}}</textarea>

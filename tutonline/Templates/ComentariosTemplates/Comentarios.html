@@ -1,106 +1,148 @@
 {% extends "../HomeTemplates/Base.html" %}
 {% block content %}
 {% load static %}
+<link rel="stylesheet" href="{% static 'css/card.css' %}">
 {% load crispy_forms_tags %}
-<div class="row">
-    <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
-        <div class="card card-body">
-            <div class="card card-body">
-                <img class="img-size-clases" style="width: 50px; height: 50px;" src="../../static/images/user.svg"
-                    alt="">
-                <p class="card-text">
-                    Nombre: {{user.first_name}} {{user.last_name}} <br>
-                    Ubicación: {{user.comuna}}</p>
-                {% for p in profesion %}
-                <p class="card-text">Titulado en: {{p.institucion}} <br>Profesion: {{p.profesion}} <br>
-                    {% if anios_pasados > 0 %}
-                    Años de experiencia: {{ anios_pasados }}
-                    {% endif %}
-                </p>
-                {% if p.tituloValidado == "Si" %}
-                <p class="card-text"><b>Titulo Verificado</b><img
-                        style="width: 25px; margin-left: 5px; margin-bottom: 5px;"
-                        src="../../static/images/icons8-verify.svg" alt=""></p>
-                {% endif %}
-                {% endfor %}
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                    data-bs-target="#staticBackdrop">Ver
-                    descripción</button>
-                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
-                    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Descripcion del tutor</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                {% for d in descripcion %}
-                                <p class="card-text">{{ d.descripcionTutor }}</p>
-                                {% endfor %}
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            </div>
-                        </div>
+<div class="d-flex align-items-center justify-content-center h-100">
+    <div class="col-xl-4 col-sm-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="dropdown float-end">
+                    <a class="text-muted dropdown-toggle font-size-16" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-haspopup="true"><i class="bx bx-dots-horizontal-rounded"></i></a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <a class="dropdown-item" href="../../IniciarSesion/editarPerfil" target="_blank"
+                            rel="noopener noreferrer">Editar</a>
+                        <a class="dropdown-item" href="{% url 'change_password' %}" target="_blank"
+                            rel="noopener noreferrer">Cambiar contraseña</a>
+                        {% if profesion %}
+                        {% for p in profesion %}
+                        {% if p.tituloValidado == "En proceso" %}
+                        <a class="dropdown-item" href="../../Perfil/EditarProfesion/" target="_blank"
+                            rel="noopener noreferrer">Editar Profesion</a>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
+                <div class="d-flex align-items-center">
+                    <div><img src="../../static/images/user.svg" alt class="avatar-md rounded-circle img-thumbnail" />
+                    </div>
+                    <div class="flex-1 ms-3">
+                        <h5 class="font-size-16 mb-1"><a href="#" class="text-dark">{{user.first_name}}
+                                {{user.last_name}}</a>
+                        </h5>
+                        <span class="badge badge-soft-success mb-0">Tutor</span>
+                        {% if profesion %}
+                        {% for p in profesion %}
+                        {% if p.tituloValidado == "Si" %}
+                        <span class="badge badge-soft-success mb-0">Título Verificado <img
+                                style="width: 20px; margin-left: 5px;" src="../../static/images/icons8-verify.svg"
+                                alt=""></span>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="mt-3 pt-1">
+                    <p class="text-muted mb-0"><i class="bi bi-geo-alt"></i>
+                        {{ user.region }}, {{ user.comuna }}</p>
+                    {% if profesion %}
+                    {% for p in profesion %}
+                    <p class="text-muted mb-0">
+                        Titulado: {{p.institucion}} <br>Profesión: {{p.profesion}}<br>
+                        {% if anios_pasados > 0 %}
+                        Años de experiencia: {{ anios_pasados }}
+                        {% endif %}
+                    </p>
+                    {% endfor %}
+                    {% else %}
+                    <a href="../../Perfil/ProfesionTutor/" class="btn btn-outline-primary btn-sm w-100 mt-2">
+                        <i class="bx bx-user me-1"></i>Registrar Profesión
+                    </a>
+                    {% endif %}
+                </div>
             </div>
         </div>
-
     </div>
 </div>
-<div class="btn-group mt-3" role="group" aria-label="Basic example">
-    <a href="../../../Perfil/PerfilTutor/{{ user.username }}" class="btn btn-primary">Clases</a>
-    <a href="../../Comentarios/Comentarios/{{ user.username }}" class="btn btn-primary">Comentarios</a>
+<div class="d-flex align-items-center justify-content-center h-100">
+    <div class="btn-group mt-3" role="group" aria-label="Basic example">
+        <a href="../../../Perfil/PerfilTutor/{{ user.username }}" class="btn btn-primary">Clases</a>
+        <a href="../../Comentarios/Comentarios/{{ user.username }}" class="btn btn-primary">Comentarios</a>
+    </div>
 </div>
-<div class="btn-group mt-3" role="group" aria-label="Basic example">
-    {% if not comentario_current_user %}
-    <a href="../../Comentarios/Comentarios/{{ user.username }}" class="btn btn-primary">Dejar un comentario</a>
+
+<div class="row mt-4">
+    {% if comentario_current_user %}
+    {% for c in comentario_current_user %}
+    <div class="col-xl-4 col-sm-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="mt-3 pt-1" style="display: flex; justify-content: space-between;">
+                    <div>
+                        <p class="text-muted mb-0"><b>{{ c.idEstudianteEmisor.first_name }}
+                                {{ c.idEstudianteEmisor.last_name }}</b><br>
+                            {{ c.fecha }}<br>
+                            <i class="bi bi-star-fill"></i> {{ c.valoracion }}<br>
+                        </p>
+                    </div>
+                    <div style="display: flex; align-items: center; padding-bottom: 55px;">
+                        <a href="../../../Comentarios/EditarComentario/{{ c.id }}" target="_blank"
+                            rel="noopener noreferrer"><i class="bi bi-pencil-fill"></i></a>
+                        <a href="../../../Comentarios/EliminarComentario/{{ c.id }}"
+                            onclick="return confirm('¿Estás seguro de eliminar este comentario? \n Podrás comentar nuevamente.');">
+                            <i style="color: red; margin-left: 10px;" class="bi bi-x-circle-fill"></i>
+                        </a>
+                    </div>
+                </div>
+                <textarea class="text-muted mb-0 mt-2 w-100" style="min-height: 100%;"
+                    readonly>{{ c.comentario }}</textarea>
+            </div>
+        </div>
+    </div>
+    
+    {% endfor %}
+    {% endif %}
+
+
+    {% if not existe_comentario and existe_clase_agendada %}
+    <div class="d-flex align-items-center justify-content-center h-100">
+
+        <div class="col-xl-6 col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {{ form | crispy }}
+                        <input type="submit" value="Agregar comentario" class="btn btn-primary">
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+        {% endif %}
+        
+    {% if comentarios_otros %}
+    {% for c in comentarios_otros %}
+    <div class="col-xl-4 col-sm-6">
+        <div class="card">
+            <div class="card-body">
+                <p class="text-muted mb-0"><b>{{ c.idEstudianteEmisor.first_name }}
+                        {{ c.idEstudianteEmisor.last_name }}</b><br>
+                    {{ c.fecha }}<br>
+                    <i class="bi bi-star-fill"></i> {{ c.valoracion }}<br>
+                </p>
+                <textarea class="text-muted mb-0 mt-2 w-100" style="min-height: 100%;"
+                    readonly>{{ c.comentario }}</textarea>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
     {% endif %}
 </div>
-<div class="container">
-    <div class="row">
-        {% if comentario_current_user %}
-        {% for c in comentario_current_user %}
-        <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
-            <div class="card card-body">
-                <p class="card-text"><b>{{ c.idEstudianteEmisor.first_name }} {{ c.idEstudianteEmisor.last_name }}</b><br>
-                    {{ c.fecha }}<br>
-                    {{ c.valoracion }}<br>
-                </p>
-                <div class="mb-2 d-flex flex-grow-1">
-                    <textarea class="form-control ms-2" style="min-height: 100%;" readonly>{{ c.comentario }}</textarea>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-        {% endif %}
-        {% if not existe_comentario and existe_clase_agendada %}
-        <form action="" method="post">
-            {% csrf_token %}
-            {{ form | crispy }}
-            <input type="submit" value="Agregar comentario" class="btn btn-primary">
-        </form>
-        {% endif %}
-        {% if comentarios_otros %}
-        {% for c in comentarios_otros %}
-        <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
-            <div class="card card-body">
-                <p class="card-text"><b>{{ c.idEstudianteEmisor.first_name }} {{ c.idEstudianteEmisor.last_name }}</b><br>
-                    {{ c.fecha }}<br>
-                    {{ c.valoracion }}<br>
-                </p>
-                <div class="mb-2 d-flex flex-grow-1">
-                    <textarea class="form-control ms-2" style="min-height: 100%;" readonly>{{ c.comentario }}</textarea>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-        {% endif %}
-    </div>
-</div>
+
 {% if not comentarios_otros and not comentario_current_user %}
 <div class="alert alert-primary" role="alert">
     <strong>No hay comentarios</strong>

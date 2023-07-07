@@ -5,13 +5,13 @@
 <link rel="stylesheet" href="{% static 'css/card.css' %}">
 <link rel="stylesheet" href="{% static 'css/button.css' %}">
 {% if user.tipoDeUsuario == "Estudiante" %}
-{% endif %}
 <div class="col-lg-4" ">
     <a type=" button" href="../../../Clases/mail/"
     onclick="openWindowCentered(this.href, 'Enviar Correo', 700, 850); return false;"
     class="btn btn-warning btn-lg mb-4 btn3d"><span class="glyphicon glyphicon-warning-sign"></span>¿No encuentras la
     clase que necesitas?</a>
 </div>
+{% endif %}
 <div class="row ">
     {% if clases %}
     {% for clase in clases %}
@@ -43,10 +43,9 @@
                         <i class="bx bx-user me-1"></i> Perfil
                     </a>
                     <button type="button" class="btn btn-outline-primary btn-sm w-50" data-bs-toggle="modal"
-                        data-bs-target="#descAsignatura"><i class="bx bx-message-square-dots me-1"></i>Descripción
+                        data-bs-target="#descAsignatura{{ clase.id }}"><i class="bx bx-message-square-dots me-1"></i>Descripción
                         Asignatura</button>
-
-                    <div class="modal fade" id="descAsignatura" data-bs-backdrop="static" data-bs-keyboard="false"
+                    <div class="modal fade" id="descAsignatura{{ clase.id }}" data-bs-backdrop="static" data-bs-keyboard="false"
                         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-scrollable">
                             <div class="modal-content">

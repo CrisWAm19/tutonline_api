@@ -1,0 +1,11 @@
+{% extends "../HomeTemplates/Base.html" %}
+{% block content %}
+{% load static %}
+{% load crispy_forms_tags %}
+  <h2>Editar</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form | crispy }}
+    <button type="submit">Guardar cambios</button>
+  </form>
+{% endblock %}
